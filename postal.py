@@ -34,6 +34,7 @@ def login():
 
     session['user_id'] = user.id
     session['user_email'] = user.email
+    #print "session after login is", session
     return redirect(url_for("display_search"))
 
 @app.route("/register", methods=["POST"])
@@ -51,7 +52,8 @@ def register():
     db_session.add(u)
     db_session.commit()
     db_session.refresh(u)
-    session['user_id'] = u.id 
+    session['user_id'] = u.id
+    session['user_email'] = u.email
     return redirect(url_for("display_search"))
 
 @app.route("/search", methods=["GET"])
@@ -119,7 +121,8 @@ def my_ratings():
 @app.route("/logout")
 def logout():
     del session['user_id']
-    #del session['user_email']
+    del session['user_email']
+    #print "session after logging out is", session
     return redirect(url_for("index"))
 
 if __name__ == "__main__":
