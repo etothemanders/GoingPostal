@@ -1,11 +1,11 @@
 {% extends 'layout.html' %}
 {% block body %}
-<h2>Your ratings</h2>
+<h2>Your Shipments</h2>
 <ul>
-    {% for rating in ratings %}
+    {% for shipment in shipments %}
     <li><a href="{{url_for("view_movie", id=rating.movie_id)}}">{{rating.movie.title}} &mdash; {{rating.rating}}</a></li>
     {% else %}
-    <li>You haven't rated anything!</li>
+    <li>You don't have any shipments to track!</li>
     {% endfor %}
 </ul>
 {% endblock %}

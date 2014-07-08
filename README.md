@@ -27,6 +27,18 @@ GoingPostal is the final project created during the Summer 2014 Hackbright Acade
 
 # Daily Stand-Ups
 
+## 2014-07-09 Stand-Up
+
+### Accomplished yesterday:
+1.  Lunch with Astha (hints on OAuth)
+2.  Finished login/logout
+
+### Plan for Today:
+
+
+### Blockers:
+
+
 ## 2014-07-08 Stand-Up
 
 ### Accomplished yesterday:
@@ -43,7 +55,7 @@ GoingPostal is the final project created during the Summer 2014 Hackbright Acade
 3.  Ask for a code review
 4.  Stub out remaining template pages
 5.  Stub out remaining routes
-6.  Read about Gmail API
+6.  Read about Gmail API (OAuth)
 
 ### Blockers:
 1.  Need to research more about options for getting emails

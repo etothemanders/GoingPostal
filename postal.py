@@ -56,67 +56,14 @@ def register():
     session['user_email'] = u.email
     return redirect(url_for("display_search"))
 
-@app.route("/search", methods=["GET"])
-def display_search():
-    return render_template("search.html")
-
-@app.route("/search", methods=["POST"])
-def search():
-    query = request.form['query']
-    movies = db_session.query(Movie).\
-            filter(Movie.title.ilike("%" + query + "%")).\
-            limit(20).all()
-
-    return render_template("results.html", movies=movies)
-
-@app.route("/movie/<int:id>", methods=["GET"])
-def view_movie(id):
-    movie = db_session.query(Movie).get(id)
-    ratings = movie.ratings
-    rating_nums = []
-    user_rating = None
-    for r in ratings:
-        if r.user_id == session['user_id']:
-            user_rating = r
-        rating_nums.append(r.rating)
-    avg_rating = float(sum(rating_nums))/len(rating_nums)
-
-    prediction = None
-    if not user_rating:
-        user = db_session.query(User).get(g.user_id) 
-        prediction = user.predict_rating(movie)
-        print prediction
-    
-    return render_template("movie.html", movie=movie, 
-            average=avg_rating, user_rating=user_rating,
-            prediction = prediction)
-
-@app.route("/rate/<int:id>", methods=["POST"])
-def rate_movie(id):
-    rating_number = int(request.form['rating'])
-    user_id = session['user_id']
-    rating = db_session.query(Rating).filter_by(user_id=user_id, movie_id=id).first()
-
-    if not rating:
-        flash("Rating added", "success")
-        rating = Rating(user_id=user_id, movie_id=id)
-        db_session.add(rating)
-    else:
-        flash("Rating updated", "success")
-
-    rating.rating = rating_number
-    db_session.commit()
-
-    return redirect(url_for("view_movie", id=id))
-
-@app.route("/my_ratings")
-def my_ratings():
+@app.route("/my_shipments")
+def my_shipments():
     if not g.user_id:
         flash("Please log in", "warning")
         return redirect(url_for("index"))
 
-    ratings = db_session.query(Rating).filter_by(user_id=g.user_id).all()
-    return render_template("my_ratings.html", ratings=ratings)
+    shipments = db_session.query(Shipment).filter_by(user_id=g.user_id).all()
+    return render_template("my_shipments.html", shipments=shipments)
 
 @app.route("/logout")
 def logout():
