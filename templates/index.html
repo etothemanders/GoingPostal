@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<!--
+<h2>Log in</h2>
+<div id="login">
+    <form action="{{url_for("login")}}" method="POST">
+        <div>
+            <label for="email">Email</label>
+            <input type="text" name="email">
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" name="password">
+        </div>
+        <input type="submit">
+    </form>
+</div>
+-->
+
+<h2>Register account</h2>
+<div id="new-user">
+    <form action="{{url_for("register")}}" method="POST">
+        <div>
+            <label for="email">Email</label>
+            <input type="text" name="email">
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" name="password">
+        </div>
+        <div>
+            <label for="location">Zip Code</label>
+            <input type="text" name="zipcode">
+        </div>
+        <div>
+            <label for="alert_preference">Default Shipment Alert Preference</label>
+            <input type="checkbox" name="default_alert_pref" value="None">No alerts
+            <input type="checkbox" name="default_alert_pref" value="Text">Text message
+            <input type="checkbox" name="default_alert_pref" value="Call">Phone call
+            <input type="checkbox" name="default_alert_pref" value="Both">Both text and phone call
+        </div>
+        <input type="submit">
+    </form>
+</div>
+{% endblock %}
