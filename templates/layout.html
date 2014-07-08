@@ -6,6 +6,7 @@
         <h1>Going Postal</h1>
         <a href="{{url_for('my_ratings')}}">My Shipments</a>
         <a href="{{url_for('search')}}">Search</a>
+        <a href="{{url_for('logout')}}">Logout</a>
         <div id="message-flash">
         {% with messages = get_flashed_messages(with_categories=True) %}
         {% if messages %}
