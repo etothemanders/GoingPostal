@@ -33,6 +33,7 @@ def login():
         return redirect(url_for("index"))
 
     session['user_id'] = user.id
+    session['user_email'] = user.email
     return redirect(url_for("display_search"))
 
 @app.route("/register", methods=["POST"])
@@ -118,6 +119,7 @@ def my_ratings():
 @app.route("/logout")
 def logout():
     del session['user_id']
+    #del session['user_email']
     return redirect(url_for("index"))
 
 if __name__ == "__main__":
