@@ -1,11 +1,32 @@
 {% extends 'layout.html' %}
 {% block body %}
 <h2>Your Shipments</h2>
-<ul>
-    {% for shipment in shipments %}
-    <li><a href="{{url_for("view_movie", id=rating.movie_id)}}">{{rating.movie.title}} &mdash; {{rating.rating}}</a></li>
-    {% else %}
-    <li>You don't have any shipments to track!</li>
-    {% endfor %}
-</ul>
+
+{% if shipments %}
+	<table>
+		<thead>
+			<th>Order Date</th>
+			<th>Item Name</th>
+			<th>Courier ID</th>
+			<th>Tracking Number</th>
+			<th>Estimated Delivery Date</th>
+		</thead>
+		<tbody>
+	    {% for shipment in shipments %}
+	    <tr>
+	    	<td>{{shipment.order_date}}</td>
+	    	<td>{{shipment.item}}</td>
+	    	<td>{{shipment.courier_id}}</td>
+	    	<td><a href="{{url_for('view_shipment', ship_id=shipment.id)}}">{{shipment.tracking_no}}</a></td>
+	    	<td>{{shipment.est_delivery}}</td>
+	    </tr>
+	    {% endfor %}
+		</tbody>
+	</table>
+
+{% else %}
+	<p>You don't have any shipments to track!</p>
+	<a href="{{url_for('add_shipment')}}">Add a Shipment to track</a>
+{% endif %}
+    
 {% endblock %}

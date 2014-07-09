@@ -32,11 +32,17 @@ GoingPostal is the final project created during the Summer 2014 Hackbright Acade
 ### Accomplished yesterday:
 1.  Lunch with Astha (hints on OAuth)
 2.  Finished login/logout
+3.  Added form to manually enter shipments
+4.  Display shipments list
+5.  Decided not to stub out the remaining templates or routes
 
 ### Plan for Today:
-
+0.  Confirm that login checks email and password...
+1.  Read about Gmail OAuth
+2.  Create a prototype Google Map (1 package, 2 points)
 
 ### Blockers:
+None
 
 
 ## 2014-07-08 Stand-Up
