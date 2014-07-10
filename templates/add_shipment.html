@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<form action="{{url_for("post_shipment")}}" method="POST">
+	<label for="order_date">Order Date</label>
+	<input type="date" name="order_date" id="order_date" step="7" min="2014-07-01">
+
+	<label for="item_name">Item Name</label>
+	<input type="text" name="item_name" id="item_name" value="Enter a name">
+	
+	<label for="courier_id">Courier ID</label>
+	<input type="text" name="courier_id" id="courier_id" value="Enter courier ID">
+	
+	<label for="tracking_number">Tracking Number</label>
+	<input type="text" name="tracking_number" id="tracking_number" value="Enter a tracking number">
+
+	<label for="est_delivery">Estimated Delivery Date</label>
+	<input type="date" name="est_delivery" id="est_delivery" step="7" min="2014-07-01">
+
+	<input type="submit" value="Add Shipment">
+</form>
+
+{% endblock %}

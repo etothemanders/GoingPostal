@@ -27,6 +27,18 @@ GoingPostal is the final project created during the Summer 2014 Hackbright Acade
 
 # Daily Stand-Ups
 
+## 2014-07-10 Stand-Up
+
+### Accomplished yesterday:
+1.  Got a Reddit OAuth sample app working in Flask
+2.  Got a stand-alone Google OAuth sample app working in Flask
+
+### Plan for today:
+1.  Transfer over Google OAuth in my Flask application
+
+### Blockers
+1.  OAuth is hard
+
 ## 2014-07-09 Stand-Up
 
 ### Accomplished yesterday:
@@ -37,12 +49,10 @@ GoingPostal is the final project created during the Summer 2014 Hackbright Acade
 5.  Decided not to stub out the remaining templates or routes
 
 ### Plan for Today:
-0.  Confirm that login checks email and password...
 1.  Read about Gmail OAuth
-2.  Create a prototype Google Map (1 package, 2 points)
 
 ### Blockers:
-None
+OAuth
 
 
 ## 2014-07-08 Stand-Up
