@@ -27,6 +27,19 @@ GoingPostal is the final project created during the Summer 2014 Hackbright Acade
 
 # Daily Stand-Ups
 
+## 2014-07-11 Stand-Up
+
+### Accomplished yesterday:
+1.  In gmail OAuth prototype, moved gmail client id and 
+    secret to more secure location in ~/.bash_profile
+2.  Authorization granted to gmail, not the random sample service
+
+### Plan for today:
+1.  Work on passing access code in the header, encoding problem
+
+### Blockers
+1.  Encoding problem
+
 ## 2014-07-10 Stand-Up
 
 ### Accomplished yesterday:
@@ -34,7 +47,7 @@ GoingPostal is the final project created during the Summer 2014 Hackbright Acade
 2.  Got a stand-alone Google OAuth sample app working in Flask
 
 ### Plan for today:
-1.  Transfer over Google OAuth in my Flask application
+1.  Get an email from Gmail
 
 ### Blockers
 1.  OAuth is hard
