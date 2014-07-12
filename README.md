@@ -14,7 +14,7 @@ GoingPostal is the final project created during the Summer 2014 Hackbright Acade
   1.  Login
   2.  Connect to Gmail API (Gmail OAuth?)
   3.  Fetch emails (all? last 60 days? upper limit?)
-  4.  Parse shipment confirmation emails
+  4.  Find shipment confirmation emails
   5.  Parse shipment number (and courier?)
 2.  Get package tracking numbers
   1.  Add tracking number, courier info to db
@@ -27,6 +27,22 @@ GoingPostal is the final project created during the Summer 2014 Hackbright Acade
 
 # Daily Stand-Ups
 
+## 2014-07-14 Stand-Up
+
+### Accomplished Friday:
+1.  Successfully received emails from Gmail API
+2.  Modified request query to search for shippment keywords
+3.  Successfully retrieved email body
+4.  Successfully decoded HTML email body from base64url encoding to something
+    readable
+
+### Plan for Monday:
+1.  My single test email was sent using UPS, so go to UPS see if I can find the
+    format of their tracking numbers,
+2.  Write regular expression to search for the tracking number in UPS emails
+3.  Encapsulate the tracking number extraction into a function
+4.  Process another email/courier...
+
 ## 2014-07-11 Stand-Up
 
 ### Accomplished yesterday:
@@ -35,10 +51,10 @@ GoingPostal is the final project created during the Summer 2014 Hackbright Acade
 2.  Authorization granted to gmail, not the random sample service
 
 ### Plan for today:
-1.  Work on passing access code in the header, encoding problem
+1.  get email body, email query limit
 
 ### Blockers
-1.  Encoding problem
+1.  How to work with Gmail's response object
 
 ## 2014-07-10 Stand-Up
 
