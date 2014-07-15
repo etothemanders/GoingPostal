@@ -27,6 +27,25 @@ GoingPostal is the final project created during the Summer 2014 Hackbright Acade
 
 # Daily Stand-Ups
 
+## 2014-07-15 Stand-Up
+
+### Accomplished yesterday:
+1.  Found UPS tracking number formats 
+(http://www.ups.com/content/us/en/tracking/help/tracking/tnh.html)
+2.  Found library to help with package tracking
+(https://github.com/storborg/packagetrack)
+3.  Wrote regular expressions to look for tracking numbers in tracking.py
+4.  Encapsulated parsing tracking numbers in to function parse_tracking_numbers()
+
+### Plan for today:
+1.  Integrate packagetrack library with my project
+2.  Use packagetrack library to issue request for package status
+
+### Blockers:
+1.  My current tracking number is not a typical UPS tracking number, having
+    trouble getting tracking info back from UPS
+
+
 ## 2014-07-14 Stand-Up
 
 ### Accomplished Friday:
