@@ -22,8 +22,9 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key = True)
-    email = Column(String(64), nullable=True)
-    password = Column(String(64), nullable=True)        
+    name = Column(String(64), nullable=False)
+    email = Column(String(64), nullable=False)
+    access_token = Column(String(64), nullable=False)        
     sms_phone = Column(String(64), nullable=True)
     call_phone = Column(String(64), nullable=True)
     location = Column(String(64), nullable=True)

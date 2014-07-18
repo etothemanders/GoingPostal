@@ -37,6 +37,8 @@ def shutdown_session(exception = None):
 @app.before_request
 def load_user_id():
     g.user_id = session.get('user_id')
+    print "getting user id before a request", g.user_id
+    print "session is", session
 
 @app.route("/")
 def index():
@@ -55,10 +57,12 @@ def authorized(resp):
             request.args['error_description']
         )
     session['gmail_token'] = (resp['access_token'],)
-    user = gmail.get('userinfo')
-    newUser = User(email=user.data['email'])
-    newUser.save()
-    session['user_email'] = user.data['email']
+    gmail_user = gmail.get('userinfo')
+    postal_user = User(name=gmail_user.data['name'], 
+                       email=gmail_user.data['email'],
+                       access_token=resp['access_token'])
+    postal_user.save()
+    session['user_email'] = gmail_user.data['email']
     #  TODO Save user, user's email, and access token to the db
     return redirect(url_for('request_emails', _external=True))
 
