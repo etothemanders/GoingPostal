@@ -34,11 +34,10 @@ gmail = oauth.remote_app(
 def shutdown_session(exception = None):
     db_session.remove()
 
+# Don't think this does anything
 @app.before_request
 def load_user_id():
     g.user_id = session.get('user_id')
-    print "getting user id before a request", g.user_id
-    print "session is", session
 
 @app.route("/")
 def index():
@@ -59,7 +58,7 @@ def authorized(resp):
     session['gmail_token'] = (resp['access_token'],)
     gmail_user = gmail.get('userinfo')
     postal_user = User(name=gmail_user.data['name'], 
-                       email=gmail_user.data['email'],
+                       email_address=gmail_user.data['email'],
                        access_token=resp['access_token'])
     postal_user.save()
     session['user_email'] = gmail_user.data['email']
@@ -69,14 +68,6 @@ def authorized(resp):
 @gmail.tokengetter
 def get_gmail_oauth_token():
     return session.get('gmail_token')
-
-@app.route('/my_shipments')
-def map_shipments():
-    emails = request_emails()
-    contents = request_email_body(emails)
-    shipping_numbers = parse_tracking_numbers(contents)
-    # return render_template("my_shipments.html",
-    #                         shipments=shipments)
 
 
 @app.route('/request_emails')

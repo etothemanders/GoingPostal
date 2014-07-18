@@ -23,6 +23,7 @@ GoingPostal is the final project created during the Summer 2014 Hackbright Acade
   2.  Get all movement updates, add info to db
 4.  Display their paths and current location on a map
 5.  Send a text message (or call?) after being delivered
+6.  Load a user from the DB if one already exists
 
 ===
 

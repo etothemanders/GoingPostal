@@ -23,12 +23,28 @@ class User(Base):
 
     id = Column(Integer, primary_key = True)
     name = Column(String(64), nullable=False)
-    email = Column(String(64), nullable=False)
+    email_address = Column(String(64), nullable=False)
     access_token = Column(String(64), nullable=False)        
     sms_phone = Column(String(64), nullable=True)
     call_phone = Column(String(64), nullable=True)
     location = Column(String(64), nullable=True)
     default_alert_pref = Column(String(15), nullable=True)
+
+    #put methods here
+    def save(self):
+        session.add(self)
+        session.commit()
+
+class Email(Base):
+    __tablename__ = "emails"
+
+    id = Column(Integer, primary_key=True)
+    gmail_id = Column(String(64), nullable=False)
+    thread_id = Column(String(64), nullable=False)
+    tracking_no = Column(String(64), nullable=True)
+    belongs_to = Column(Integer, ForeignKey('users.id'), nullable=False)
+
+    user = relationship("User", backref="emails")
 
     #put methods here
     def save(self):
