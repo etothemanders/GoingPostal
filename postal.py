@@ -9,9 +9,9 @@ import model
 from packagetrack import Package
 
 app = Flask(__name__)
-SECRET_KEY = "\xc3\xf5T\xa0e\xdf\x05\x93\xc1'\x89\x16\x97mv\xc4mnb\xa1\xe2k\xa6\xdc"
 app.config['GOOGLE_ID'] = config.GOOGLE_ID
 app.config['GOOGLE_SECRET'] = config.GOOGLE_SECRET
+app.config['SECRET_KEY'] = config.SECRET_KEY
 app.config.from_object(__name__)
 
 oauth = OAuth(app)
@@ -56,6 +56,8 @@ def authorized(resp):
         )
     session['gmail_token'] = (resp['access_token'],)
     user = gmail.get('userinfo')
+    newUser = User(email=user.data['email'])
+    newUser.save()
     session['user_email'] = user.data['email']
     #  TODO Save user, user's email, and access token to the db
     return redirect(url_for('request_emails', _external=True))

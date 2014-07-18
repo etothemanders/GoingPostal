@@ -30,6 +30,9 @@ class User(Base):
     default_alert_pref = Column(String(15), nullable=True)
 
     #put methods here
+    def save(self):
+        session.add(self)
+        session.commit()
 
 
 class Shipment(Base):
