@@ -101,7 +101,8 @@ def request_email_body(messages):
         decoded = base64.b64decode(base64url_encoded_string.replace('-', '/')).replace('_', '+')
         tracking_number = parse_tracking_number(decoded)
         p = Package(tracking_number)
-        return p.url()
+        print "request url is", p.url()
+        return p.track()
         #return jsonify({"data": decoded})
 
 def parse_tracking_number(decoded_string):

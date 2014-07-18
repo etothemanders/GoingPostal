@@ -10,22 +10,53 @@ GoingPostal is the final project created during the Summer 2014 Hackbright Acade
 ===
 # TODO
 
-1.  Fetch my shipment emails from Gmail
-  1.  Login
-  2.  Connect to Gmail API (Gmail OAuth?)
-  3.  Fetch emails (all? last 60 days? upper limit?)
-  4.  Find shipment confirmation emails
-  5.  Parse shipment number (and courier?)
-2.  Get package tracking numbers
+1.  Fetch my shipment emails from Gmail - DONE
+  1.  Login - DONE
+  2.  Connect to Gmail API (Gmail OAuth?) - DONE
+  3.  Fetch emails (all? last 60 days? upper limit?) - DONE
+  4.  Find shipment confirmation emails - DONE
+  5.  Parse shipment number (and courier?) - DONE
+2.  Get package tracking numbers - DONE
   1.  Add tracking number, courier info to db
 3.  Looks up their status and location from the courier
   1.  Add location data to db
+  2.  Get all movement updates, add info to db
 4.  Display their paths and current location on a map
 5.  Send a text message (or call?) after being delivered
 
 ===
 
 # Daily Stand-Ups
+
+## 2014-07-17 Stand-Up
+
+### Accomplished yesterday:
+1.  Finished blog post on OAuth
+2.  Emailed UPS for help
+
+### Plan for today:
+1.  Attend HB sponsored negotiation workshop
+2.  Fix UPS Mail Innovations SOAP request
+
+### Blockers:
+No longer blocked on UPS Mail Innovations Tracking request!
+1.  Not sure how to get all tracking information, currently just getting first 
+    entry...
+
+## 2014-07-16 Stand-Up
+
+### Accomplished yesterday:
+1.  Modified email query for shipment emails in the last 6 months
+2.  Used packagetrack library to create a UPS request
+3.  Went to Survey Monkey LnL
+4.  Met with Astha, got feedback on my project
+
+### Plan for today:
+1.  Troubleshoot request for Mail Innovations tracking number from UPS
+2.  Finish blog post on OAuth
+
+### Blockers
+1.  Non-standard tracking number
 
 ## 2014-07-15 Stand-Up
 
