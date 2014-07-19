@@ -49,35 +49,21 @@ def authorized(resp):
     # emails is a list of dictionaries [{ 'id': '12345', 'threadId': '12345'}, ]
     emails = postal_user.request_emails()
     contents = []
+    tracking_numbers = []
     for email in emails:
         content = email_helper.request_email_body(email)
         contents.append(content)
 
-    return str(contents)
+    for content in contents:
+        tracking_number = email_helper.parse_tracking_number(content)
+        tracking_numbers.append(tracking_number)
+
+    return str(tracking_numbers)
     #return redirect(url_for('request_emails', _external=True))
 
 @gmail.tokengetter
 def get_gmail_oauth_token():
     return session.get('gmail_token')
-
-
-def parse_tracking_number(decoded_string):
-    """Receives a decoded string, looks for a tracking number pattern, and
-    returns a tracking number (string)."""
-
-    patterns = {
-        'ups_pattern': r'1Z[A-Z0-9]{16}',
-        'fedex_pattern': r'[0-9]{22}',
-        'usps_pattern': r'[0-9]{26}'
-    }
-    for pattern in patterns:
-        print pattern
-        result = re.findall(patterns[pattern], decoded_string)
-        if result:
-            print "pattern result is: ", result
-            return result[0]
-        else:
-            continue
 
 # @app.route('/logout')
 # def logout():
