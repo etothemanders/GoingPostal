@@ -29,6 +29,26 @@ GoingPostal is the final project created during the Summer 2014 Hackbright Acade
 
 # Daily Stand-Ups
 
+## 2014-07-21
+
+### Accomplished Friday:
+1.  Got help from Nick to refactor my code
+
+### Plan for today:
+
+### Blockers:
+
+## 2014-07-18
+
+### Accomplished yesterday:
+1.  Fixed UPS Mail Innovations XML request, but only getting one response back
+
+### Blockers:
+1.  UPS deleted my package's tracking information
+
+### Plan for today:
+1.  Write code to ignore that tracking number pattern
+
 ## 2014-07-17 Stand-Up
 
 ### Accomplished yesterday:
