@@ -10,7 +10,8 @@ def request_email_body(email):
     response = gmail.get(url)
     base64url_encoded_string = response.data["payload"]["body"]["data"]
     # To decode, replace '-' with '/' and '_' with '+'
-    decoded = base64.b64decode(base64url_encoded_string.replace('-', '/').replace('_', '+'))
+    decoded = base64.b64decode(base64url_encoded_string.replace('-', '+').replace('_', '/'))
+    print decoded
     return decoded
 
 
