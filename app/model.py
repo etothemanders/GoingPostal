@@ -4,6 +4,8 @@ from sqlalchemy import Column, Integer, String, DateTime, Date
 
 from sqlalchemy.orm import sessionmaker, scoped_session, relationship, backref
 import os
+from app import gmail
+
 #import your app modules
 
 db_uri = os.environ.get("DATABASE_URL", "sqlite:///shipments.db")
@@ -131,7 +133,6 @@ def main():
     #create_db()
     pass
 
-from postal import gmail
 
 if __name__ == "__main__":
     #u1 = session.query(User).get(1)
