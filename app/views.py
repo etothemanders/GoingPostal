@@ -3,7 +3,7 @@ from datetime import datetime
 import re
 
 from flask import Flask, session, request, render_template, flash, redirect, url_for, g, jsonify
-from model import session as db_session, User
+from model import session as db_session, User, Shipment
 from packagetrack import Package
 from sqlalchemy import desc
 
@@ -50,6 +50,7 @@ def authorized(resp):
     emails = postal_user.request_emails()
     contents = []
     tracking_numbers = []
+    shippers = []
     for email in emails:
         content = email_helper.request_email_body(email)
         contents.append(content)
@@ -58,7 +59,12 @@ def authorized(resp):
         tracking_number = email_helper.parse_tracking_number(content)
         tracking_numbers.append(tracking_number)
 
-    return str(tracking_numbers)
+    for tracking_number in tracking_numbers:
+        p = Package(tracking_number)
+        shipper = p.shipper
+        shippers.append(shipper)
+
+    return str(shippers)
     #return redirect(url_for('request_emails', _external=True))
 
 @gmail.tokengetter
