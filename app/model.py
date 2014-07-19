@@ -1,12 +1,12 @@
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import create_engine, ForeignKey
-from sqlalchemy import Column, Integer, String, DateTime, Date
-
-from sqlalchemy.orm import sessionmaker, scoped_session, relationship, backref
 import os
-from app import gmail
+
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine, ForeignKey, Column, Integer, String, DateTime, Date
+from sqlalchemy.orm import sessionmaker, scoped_session, relationship, backref
 
 #import your app modules
+from app import gmail
+
 
 db_uri = os.environ.get("DATABASE_URL", "sqlite:///shipments.db")
     

@@ -3,8 +3,7 @@ from datetime import datetime
 import re
 
 from flask import Flask, session, request, render_template, flash, redirect, url_for, g, jsonify
-from model import session as db_session, User, Shipment, Location, Alert, Courier
-import model
+from model import session as db_session, User
 from packagetrack import Package
 
 from app import app, gmail
@@ -35,7 +34,7 @@ def authorized(resp):
             request.args['error_reason'],
             request.args['error_description']
         )
-    # Save access token to session for subsequent gmail.get
+    # Save access token to session for subsequent Gmail API requests
     session['gmail_token'] = (resp['access_token'],)
 
     gmail_user = gmail.get('userinfo')
@@ -43,10 +42,11 @@ def authorized(resp):
                        email_address=gmail_user.data['email'],
                        access_token=resp['access_token'])
     postal_user.save()
-    # Save user email to session for subsequent email request
+    # Save user email to session for subsequent Gmail API requests
     session['user_email'] = gmail_user.data['email']
 
     emails = postal_user.request_emails()
+
     return str(emails)
     #return redirect(url_for('request_emails', _external=True))
 
@@ -54,23 +54,6 @@ def authorized(resp):
 def get_gmail_oauth_token():
     return session.get('gmail_token')
 
-
-# @app.route('/request_emails')
-# def request_emails():
-#     """Builds a GMAIL API query for shipment emails in the last 6 months.
-#     Returns a function call asking for the contents of those shipping 
-#     emails."""
-
-#     query = "shipped shipping shipment tracking after:2014/1/14"
-#     url = "https://www.googleapis.com/gmail/v1/users/%s/messages" % session.get('user_email')
-#     response = gmail.get(url, data = {"q": query})
-#     print "response is: ", response
-#     data = response.data
-#     print "data is", data
-#     messages = data["messages"]
-#     print "messages are: ", messages
-#     # messages is a list of dictionaries [{ 'id': '12345', 'threadId': '12345'}, ]
-#     return request_email_body(messages)
 
 def request_email_body(messages):
     """Receives a list of dictionaries of message id's.
