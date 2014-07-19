@@ -5,8 +5,10 @@ import re
 from flask import Flask, session, request, render_template, flash, redirect, url_for, g, jsonify
 from model import session as db_session, User
 from packagetrack import Package
+from sqlalchemy import desc
 
 from app import app, gmail
+import email_helper
 
 
 @app.teardown_request
@@ -35,7 +37,7 @@ def authorized(resp):
             request.args['error_description']
         )
     # Save access token to session for subsequent Gmail API requests
-    session['gmail_token'] = (resp['access_token'],)
+    session['gmail_token'] = (resp['access_token'], )
 
     gmail_user = gmail.get('userinfo')
     postal_user = User(name=gmail_user.data['name'], 
@@ -44,31 +46,20 @@ def authorized(resp):
     postal_user.save()
     # Save user email to session for subsequent Gmail API requests
     session['user_email'] = gmail_user.data['email']
-
+    # emails is a list of dictionaries [{ 'id': '12345', 'threadId': '12345'}, ]
     emails = postal_user.request_emails()
+    contents = []
+    for email in emails:
+        content = email_helper.request_email_body(email)
+        contents.append(content)
 
-    return str(emails)
+    return str(contents)
     #return redirect(url_for('request_emails', _external=True))
 
 @gmail.tokengetter
 def get_gmail_oauth_token():
     return session.get('gmail_token')
 
-
-def request_email_body(messages):
-    """Receives a list of dictionaries of message id's.
-    Returns a dictionary of tracking numbers."""
-
-    for email in messages:
-        url = "https://www.googleapis.com/gmail/v1/users/%s/messages/%s" % (session.get('user_email'), email["id"])
-        response = gmail.get(url)
-        base64url_encoded_string = response.data["payload"]["body"]["data"]
-        decoded = base64.b64decode(base64url_encoded_string.replace('-', '/')).replace('_', '+')
-        tracking_number = parse_tracking_number(decoded)
-        p = Package(tracking_number)
-        print "request url is", p.url()
-        return p.track()
-        #return jsonify({"data": decoded})
 
 def parse_tracking_number(decoded_string):
     """Receives a decoded string, looks for a tracking number pattern, and
