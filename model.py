@@ -35,6 +35,23 @@ class User(Base):
         session.add(self)
         session.commit()
 
+    def request_emails(self):
+        """Builds a GMAIL API query for shipment emails in the last 6 months.
+        Returns a function call asking for the contents of those shipping 
+        emails."""
+
+        query = "shipped shipping shipment tracking after:2014/1/14"
+        url = "https://www.googleapis.com/gmail/v1/users/%s/messages" % self.email_address
+        response = gmail.get(url, data = {"q": query})
+        print "response is: ", response
+        data = response.data
+        print "data is", data
+        messages = data["messages"]
+        print "messages are: ", messages
+        # messages is a list of dictionaries [{ 'id': '12345', 'threadId': '12345'}, ]
+        return messages
+        #return request_email_body(messages)
+
 class Email(Base):
     __tablename__ = "emails"
 
@@ -113,6 +130,8 @@ def main():
     """Calls create_db()"""
     #create_db()
     pass
+
+from postal import gmail
 
 if __name__ == "__main__":
     #u1 = session.query(User).get(1)

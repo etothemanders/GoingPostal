@@ -55,15 +55,20 @@ def authorized(resp):
             request.args['error_reason'],
             request.args['error_description']
         )
+    # Save access token to session for subsequent gmail.get
     session['gmail_token'] = (resp['access_token'],)
+
     gmail_user = gmail.get('userinfo')
     postal_user = User(name=gmail_user.data['name'], 
                        email_address=gmail_user.data['email'],
                        access_token=resp['access_token'])
     postal_user.save()
+    # Save user email to session for subsequent email request
     session['user_email'] = gmail_user.data['email']
-    #  TODO Save user, user's email, and access token to the db
-    return redirect(url_for('request_emails', _external=True))
+
+    emails = postal_user.request_emails()
+    return emails
+    #return redirect(url_for('request_emails', _external=True))
 
 @gmail.tokengetter
 def get_gmail_oauth_token():
