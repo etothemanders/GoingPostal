@@ -75,17 +75,17 @@ class Shipment(Base):
     __tablename__ = "shipments"
 
     id = Column(Integer, primary_key = True)
-    order_date = Column(Date, nullable=False)
-    item = Column(String, nullable=False)
-    courier_id = Column(Integer, ForeignKey('couriers.id'), nullable=True)
+    #order_date = Column(Date, nullable=False)
+    #item = Column(String, nullable=False)
+    #courier_id = Column(Integer, ForeignKey('couriers.id'), nullable=True)
     tracking_no = Column(Integer, nullable=False)
     est_delivery = Column(Date, nullable=True)
     user_id = Column(Integer, ForeignKey('users.id'))
-    description = Column(String(128), nullable=True)
-    retailer = Column(String(64), nullable=True)
+    #description = Column(String(128), nullable=True)
+    #retailer = Column(String(64), nullable=True)
 
     user = relationship("User", backref="shipments")
-    courier = relationship("Courier", backref="shipments")
+    #courier = relationship("Courier", backref="shipments")
 
 class Location(Base):
     __tablename__ = "locations"

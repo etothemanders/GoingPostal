@@ -35,8 +35,10 @@ GoingPostal is the final project created during the Summer 2014 Hackbright Acade
 1.  Got help from Nick to refactor my code
 
 ### Plan for today:
+1.  Write pre-processing function to strip out unpaired XML tags
 
 ### Blockers:
+1.  None right now
 
 ## 2014-07-18
 

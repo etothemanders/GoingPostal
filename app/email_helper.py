@@ -9,7 +9,7 @@ def request_email_body(email):
     url = "https://www.googleapis.com/gmail/v1/users/%s/messages/%s" % (session.get('user_email'), email['id'])
     response = gmail.get(url)
     base64url_encoded_string = response.data["payload"]["body"]["data"]
-    # To decode, replace '-' with '/' and '_' with '+'
+    # To decode base64url, replace '-' with '+' and '_' with '/' first
     decoded = base64.b64decode(base64url_encoded_string.replace('-', '+').replace('_', '/'))
     return decoded
 
@@ -20,8 +20,9 @@ def parse_tracking_number(decoded_string):
 
     patterns = {
         'ups_pattern': r'1Z[A-Z0-9]{16}',
-        'fedex_pattern': r'[0-9]{22}',
-        'usps_pattern': r'[0-9]{26}'
+        # Don't look for unsupported tracking numbers for now
+        #'fedex_pattern': r'[0-9]{22}',
+        #'usps_pattern': r'[0-9]{26}'
     }
     for pattern in patterns:
         result = re.findall(patterns[pattern], decoded_string)

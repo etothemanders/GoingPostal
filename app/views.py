@@ -51,6 +51,7 @@ def authorized(resp):
     contents = []
     tracking_numbers = []
     shippers = []
+    tracking = []
     for email in emails:
         content = email_helper.request_email_body(email)
         contents.append(content)
@@ -60,11 +61,15 @@ def authorized(resp):
         tracking_numbers.append(tracking_number)
 
     for tracking_number in tracking_numbers:
-        p = Package(tracking_number)
-        shipper = p.shipper
-        shippers.append(shipper)
+        if tracking_number is not None:
+            p = Package(tracking_number)
+            shipper = p.shipper
+            shippers.append(shipper)
+            tracking_info = p.track()
+            tracking.append(tracking_info)
 
-    return str(shippers)
+
+    return str(tracking)
     #return redirect(url_for('request_emails', _external=True))
 
 @gmail.tokengetter
