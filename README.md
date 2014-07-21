@@ -36,6 +36,9 @@ GoingPostal is the final project created during the Summer 2014 Hackbright Acade
 
 ### Plan for today:
 1.  Write pre-processing function to strip out unpaired XML tags
+2.  Parse out all activities that have a location
+2.  Create my_shipments route and template to render
+3.  Add a Google map to the template
 
 ### Blockers:
 1.  None right now

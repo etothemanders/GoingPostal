@@ -3,7 +3,7 @@ from datetime import datetime
 import re
 
 from flask import Flask, session, request, render_template, flash, redirect, url_for, g, jsonify
-from model import session as db_session, User, Shipment
+from model import session as db_session, User, Shipment, Location
 from packagetrack import Package
 from sqlalchemy import desc
 
@@ -52,6 +52,7 @@ def authorized(resp):
     tracking_numbers = []
     shippers = []
     tracking = []
+    activities = []
     for email in emails:
         content = email_helper.request_email_body(email)
         contents.append(content)
@@ -65,12 +66,44 @@ def authorized(resp):
             p = Package(tracking_number)
             shipper = p.shipper
             shippers.append(shipper)
-            tracking_info = p.track()
-            tracking.append(tracking_info)
+            activity_entries = p.track()
+            tracking.append(activity_entries)
+            # For activity in activity_entries, 
+            # if it has a city & state (zipcode?)
+            # create a location object, save to db
+            for activity in activity_entries:
+                if activity['ActivityLocation'] != 'Unknown':
+                    address_info = activity['ActivityLocation']['Address']
+                    print "activity location is", address_info
+                    if address_info.has_key('City') and address_info.has_key('StateProvinceCode'):
+                        print "Found a city and state!"
+                        city = address_info['City']
+                        state = address_info['StateProvinceCode']
+                        shipment_id = 99
+                        date = datetime.strptime(activity['Date'], "%Y%m%d")
+                        time = activity['Time']
+                        status = activity['Status']['StatusType']['Description']
+                        print 'City: ', city
+                        print 'State: ', state
+                        print 'Date: ', date
+                        print 'Time: ', time
+                        print 'Status: ', status
+                        location = Location(shipment_id=shipment_id, 
+                                            placename=city, 
+                                            latitude=99,
+                                            longitude=99,
+                                            timestamp=date,
+                                            title=status,
+                                            imdb_url=p.url())
+                        db_session.add(location)
+            db_session.commit()
 
-
-    return str(tracking)
+    return redirect(url_for('show_map'))
     #return redirect(url_for('request_emails', _external=True))
+
+@app.route("/my_shipments")
+def show_map():
+    return render_template('my_shipments.html')
 
 @gmail.tokengetter
 def get_gmail_oauth_token():
