@@ -53,7 +53,6 @@ def parse_tracking_number(decoded_string):
     for pattern in patterns:
         result = re.findall(patterns[pattern], decoded_string)
         if result:
-            print "pattern result is: ", result
             return result[0]
     return None
 
@@ -74,15 +73,24 @@ def create_shipments(tracking_numbers):
 
 
 def track_shipment(shipment):
-    """Receives a shipment object. Returns a list of activities (dictionaries)."""
+    """Receives a shipment object. Returns a dictionary of activities.
+
+    activities = { 'shipment.id': [ {activity}, {activity} ] }"""
+
+    activities = {}
     p = Package(shipment.tracking_no)
     activity_entries = p.track()
-    return activity_entries
+    activities[shipment.id] = activity_entries
+    return activities
 
 
 def track_shipments(shipments):
-    """Receives a list of shipment objects.  Returns a nested list of activities 
-    (dictionaries)."""
+    """Receives a list of shipment objects.  Returns a list of shipment 
+    activity dictionaries.
+
+    activities = [ { shipment id: [ { activity }, { activity } ] }, 
+                   { shipment id: [ { activity }, { activity } ] }
+                 ]"""
     activities = []
     for shipment in shipments:
         activity_entries = track_shipment(shipment)
@@ -91,38 +99,34 @@ def track_shipments(shipments):
 
 
 def parse_locations(activities):
-    """Receives a list of activities (dictionaries) and looks for a location."""
-    for activity in activities:
-        parse_location(activity)
+    """Receives a list of shipment activity dictionaries and looks for a city
+    and state location for each activity item."""
+    for activity_dict in activities:
+        parse_location(activity_dict)
 
 
-def parse_location(activity_list):
-    """Receives a list of activities (dictionaries). If the activity contains 
+def parse_location(activity_dict):
+    """Receives a shipment activity dictionary. If the activity contains 
     a city and a state, saves the location to the database."""
-    for activity in activity_list:
-        if activity['ActivityLocation'] != 'Unknown':
-            address_info = activity['ActivityLocation']['Address']
-            print "activity location is", address_info
-            if address_info.has_key('City') and address_info.has_key('StateProvinceCode'):
-                print "Found a city and state!"
-                city = address_info['City']
-                state = address_info['StateProvinceCode']
-                shipment_id = 99
-                date = datetime.strptime(activity['Date'], "%Y%m%d")
-                time = activity['Time']
-                status = activity['Status']['StatusType']['Description']
-                print 'City: ', city
-                print 'State: ', state
-                print 'Date: ', date
-                print 'Time: ', time
-                print 'Status: ', status
-                location = Location(shipment_id=shipment_id, 
-                                    placename=city, 
-                                    latitude=99,
-                                    longitude=99,
-                                    timestamp=date,
-                                    title=status,
-                                    imdb_url='Need to get this.')
-                db_session.add(location)
+    for shipment_id in activity_dict:
+        activity_list = activity_dict[shipment_id]
+        for activity in activity_list:
+            if activity['ActivityLocation'] != 'Unknown':
+                address_info = activity['ActivityLocation']['Address']
+                if address_info.has_key('City') and address_info.has_key('StateProvinceCode'):
+                    city = address_info['City']
+                    state = address_info['StateProvinceCode']
+                    shipment_id = shipment_id
+                    date = datetime.strptime(activity['Date'], "%Y%m%d")
+                    time = activity['Time']
+                    status = activity['Status']['StatusType']['Description']
+                    location = Location(shipment_id=shipment_id, 
+                                        placename=city, 
+                                        latitude=99,
+                                        longitude=99,
+                                        timestamp=date,
+                                        title=status,
+                                        imdb_url='Need to get this.')
+                    db_session.add(location)
     db_session.commit()
 

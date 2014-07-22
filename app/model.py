@@ -44,14 +44,10 @@ class User(Base):
         query = "shipped shipping shipment tracking after:2014/1/14"
         url = "https://www.googleapis.com/gmail/v1/users/%s/messages" % self.email_address
         response = gmail.get(url, data = {"q": query})
-        print "response is: ", response
         data = response.data
-        print "data is", data
         messages = data["messages"]
-        print "messages are: ", messages
         # messages is a list of dictionaries [{ 'id': '12345', 'threadId': '12345'}, ]
         return messages
-        #return request_email_body(messages)
 
 class Email(Base):
     __tablename__ = "emails"
