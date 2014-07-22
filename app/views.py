@@ -38,6 +38,7 @@ def authorized(resp):
                        access_token=resp['access_token'])
     postal_user.save()
     session['user_email'] = gmail_user.data['email']
+    session['user_id'] = postal_user.id
 
     email_ids = postal_user.request_email_ids()
     email_contents = email_helper.get_emails(email_ids)

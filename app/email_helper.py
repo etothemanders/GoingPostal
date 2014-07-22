@@ -66,7 +66,7 @@ def create_shipments(tracking_numbers):
     for tracking_number in tracking_numbers:
         if tracking_number is not None:
             shipment = Shipment(tracking_no=tracking_number,
-                                user_id=99)
+                                user_id=session['user_id'])
             shipments.append(shipment)
             db_session.add(shipment)
     db_session.commit()
