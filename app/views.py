@@ -49,41 +49,8 @@ def authorized(resp):
     email_contents = get_emails(email_ids)
     tracking_numbers = get_tracking_numbers(email_contents)
     shipments = create_shipments(tracking_numbers)
-
-    for shipment in shipments:
-        #locations = get_activity(shipment)
-        p = Package(shipment.tracking_no)
-        activity_entries = p.track()
-        # For activity in activity_entries, 
-        # if it has a city & state (zipcode?)
-        # create a location object, save to db
-        for activity in activity_entries:
-            if activity['ActivityLocation'] != 'Unknown':
-                address_info = activity['ActivityLocation']['Address']
-                print "activity location is", address_info
-                if address_info.has_key('City') and address_info.has_key('StateProvinceCode'):
-                    print "Found a city and state!"
-                    city = address_info['City']
-                    state = address_info['StateProvinceCode']
-                    shipment_id = 99
-                    date = datetime.strptime(activity['Date'], "%Y%m%d")
-                    time = activity['Time']
-                    status = activity['Status']['StatusType']['Description']
-                    print 'City: ', city
-                    print 'State: ', state
-                    print 'Date: ', date
-                    print 'Time: ', time
-                    print 'Status: ', status
-                    location = Location(shipment_id=shipment_id, 
-                                        placename=city, 
-                                        latitude=99,
-                                        longitude=99,
-                                        timestamp=date,
-                                        title=status,
-                                        imdb_url=p.url())
-                    db_session.add(location)
-            db_session.commit()
-
+    activities = track_shipments(shipments)
+    parse_locations(activities)
     return redirect(url_for('show_map'))
 
 def get_emails(email_ids):
@@ -118,9 +85,55 @@ def create_shipments(tracking_numbers):
     db_session.commit()
     return shipments
 
-def get_activity(shipment):
-    """Receives a shipment object, returns """
-    pass
+def track_shipment(shipment):
+    """Receives a shipment object. Returns a list of activities (dictionaries)."""
+    p = Package(shipment.tracking_no)
+    activity_entries = p.track()
+    return activity_entries
+
+def track_shipments(shipments):
+    """Receives a list of shipment objects.  Returns a nested list of activities 
+    (dictionaries)."""
+    activities = []
+    for shipment in shipments:
+        activity_entries = track_shipment(shipment)
+        activities.append(activity_entries)
+    return activities
+
+def parse_locations(activities):
+    """Receives a list of activities (dictionaries) and looks for a location."""
+    for activity in activities:
+        parse_location(activity)
+
+def parse_location(activity_list):
+    """Receives a list of activities (dictionaries). If the activity contains 
+    a city and a state, saves the location to the database."""
+    for activity in activity_list:
+        if activity['ActivityLocation'] != 'Unknown':
+            address_info = activity['ActivityLocation']['Address']
+            print "activity location is", address_info
+            if address_info.has_key('City') and address_info.has_key('StateProvinceCode'):
+                print "Found a city and state!"
+                city = address_info['City']
+                state = address_info['StateProvinceCode']
+                shipment_id = 99
+                date = datetime.strptime(activity['Date'], "%Y%m%d")
+                time = activity['Time']
+                status = activity['Status']['StatusType']['Description']
+                print 'City: ', city
+                print 'State: ', state
+                print 'Date: ', date
+                print 'Time: ', time
+                print 'Status: ', status
+                location = Location(shipment_id=shipment_id, 
+                                    placename=city, 
+                                    latitude=99,
+                                    longitude=99,
+                                    timestamp=date,
+                                    title=status,
+                                    imdb_url='Need to get this.')
+                db_session.add(location)
+    db_session.commit()
 
 @app.route("/my_shipments")
 def show_map():

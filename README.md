@@ -29,6 +29,20 @@ GoingPostal is the final project created during the Summer 2014 Hackbright Acade
 
 # Daily Stand-Ups
 
+## 2014-07-22
+
+### Accomplished Monday:
+1.  Finished pre-processing UPS XML data
+2.  Successfully saving it to my database
+3.  Created a new route and stub template for my map page.  
+4.  Started some refactoring/code clean-up in my routes
+
+### Plan for Tuesday:
+1.  Finish refactoring/code clean-up in my routes
+2.  Attend Heroku Lunch and Learn
+
+No Blockers
+
 ## 2014-07-21
 
 ### Accomplished Friday:
