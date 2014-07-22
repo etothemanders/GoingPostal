@@ -24,6 +24,7 @@ GoingPostal is the final project created during the Summer 2014 Hackbright Acade
 4.  Display their paths and current location on a map
 5.  Send a text message (or call?) after being delivered
 6.  Load a user from the DB if one already exists
+7.  Save the actual shipment id for the locations
 
 ===
 
