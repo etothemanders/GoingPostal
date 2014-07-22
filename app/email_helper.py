@@ -3,7 +3,7 @@ from flask import session
 from app import gmail
 
 def request_email_body(email):
-    """Receives an email (dictionaries of messageId, threadId keys).
+    """Receives an email (dictionary of id, threadId keys).
     Returns an email body (base64url decoded string)."""
 
     url = "https://www.googleapis.com/gmail/v1/users/%s/messages/%s" % (session.get('user_email'), email['id'])

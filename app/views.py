@@ -36,7 +36,6 @@ def authorized(resp):
             request.args['error_reason'],
             request.args['error_description']
         )
-    # Save access token to session for subsequent Gmail API requests
     session['gmail_token'] = (resp['access_token'], )
 
     gmail_user = gmail.get('userinfo')
@@ -44,62 +43,84 @@ def authorized(resp):
                        email_address=gmail_user.data['email'],
                        access_token=resp['access_token'])
     postal_user.save()
-    # Save user email to session for subsequent Gmail API requests
     session['user_email'] = gmail_user.data['email']
-    # emails is a list of dictionaries [{ 'id': '12345', 'threadId': '12345'}, ]
-    emails = postal_user.request_emails()
-    contents = []
-    tracking_numbers = []
-    shippers = []
-    tracking = []
-    activities = []
-    for email in emails:
-        content = email_helper.request_email_body(email)
-        contents.append(content)
 
-    for content in contents:
-        tracking_number = email_helper.parse_tracking_number(content)
-        tracking_numbers.append(tracking_number)
+    email_ids = postal_user.request_email_ids()
+    email_contents = get_emails(email_ids)
+    tracking_numbers = get_tracking_numbers(email_contents)
+    shipments = create_shipments(tracking_numbers)
 
-    for tracking_number in tracking_numbers:
-        if tracking_number is not None:
-            p = Package(tracking_number)
-            shipper = p.shipper
-            shippers.append(shipper)
-            activity_entries = p.track()
-            tracking.append(activity_entries)
-            # For activity in activity_entries, 
-            # if it has a city & state (zipcode?)
-            # create a location object, save to db
-            for activity in activity_entries:
-                if activity['ActivityLocation'] != 'Unknown':
-                    address_info = activity['ActivityLocation']['Address']
-                    print "activity location is", address_info
-                    if address_info.has_key('City') and address_info.has_key('StateProvinceCode'):
-                        print "Found a city and state!"
-                        city = address_info['City']
-                        state = address_info['StateProvinceCode']
-                        shipment_id = 99
-                        date = datetime.strptime(activity['Date'], "%Y%m%d")
-                        time = activity['Time']
-                        status = activity['Status']['StatusType']['Description']
-                        print 'City: ', city
-                        print 'State: ', state
-                        print 'Date: ', date
-                        print 'Time: ', time
-                        print 'Status: ', status
-                        location = Location(shipment_id=shipment_id, 
-                                            placename=city, 
-                                            latitude=99,
-                                            longitude=99,
-                                            timestamp=date,
-                                            title=status,
-                                            imdb_url=p.url())
-                        db_session.add(location)
+    for shipment in shipments:
+        #locations = get_activity(shipment)
+        p = Package(shipment.tracking_no)
+        activity_entries = p.track()
+        # For activity in activity_entries, 
+        # if it has a city & state (zipcode?)
+        # create a location object, save to db
+        for activity in activity_entries:
+            if activity['ActivityLocation'] != 'Unknown':
+                address_info = activity['ActivityLocation']['Address']
+                print "activity location is", address_info
+                if address_info.has_key('City') and address_info.has_key('StateProvinceCode'):
+                    print "Found a city and state!"
+                    city = address_info['City']
+                    state = address_info['StateProvinceCode']
+                    shipment_id = 99
+                    date = datetime.strptime(activity['Date'], "%Y%m%d")
+                    time = activity['Time']
+                    status = activity['Status']['StatusType']['Description']
+                    print 'City: ', city
+                    print 'State: ', state
+                    print 'Date: ', date
+                    print 'Time: ', time
+                    print 'Status: ', status
+                    location = Location(shipment_id=shipment_id, 
+                                        placename=city, 
+                                        latitude=99,
+                                        longitude=99,
+                                        timestamp=date,
+                                        title=status,
+                                        imdb_url=p.url())
+                    db_session.add(location)
             db_session.commit()
 
     return redirect(url_for('show_map'))
-    #return redirect(url_for('request_emails', _external=True))
+
+def get_emails(email_ids):
+    """Receives a list of emails (dictionaries) with keys id and threadId.
+    Returns a list of email contents (string)."""
+    email_contents = []
+    for email in email_ids:
+        content = email_helper.request_email_body(email)
+        email_contents.append(content)
+    return email_contents
+
+def get_tracking_numbers(email_contents):
+    """Receives a list of email contents (strings). 
+    Returns a list of tracking numbers."""
+    tracking_numbers = []
+    for content in email_contents:
+        tracking_number = email_helper.parse_tracking_number(content)
+        tracking_numbers.append(tracking_number)
+    return tracking_numbers
+
+def create_shipments(tracking_numbers):
+    """Receives a list of tracking numbers. Creates a shipments object for each
+    tracking number, saves it to the database, and returns a list of shipment 
+    objects."""
+    shipments = []
+    for tracking_number in tracking_numbers:
+        if tracking_number is not None:
+            shipment = Shipment(tracking_no=tracking_number,
+                                user_id=99)
+            shipments.append(shipment)
+            db_session.add(shipment)
+    db_session.commit()
+    return shipments
+
+def get_activity(shipment):
+    """Receives a shipment object, returns """
+    pass
 
 @app.route("/my_shipments")
 def show_map():
@@ -108,11 +129,6 @@ def show_map():
 @gmail.tokengetter
 def get_gmail_oauth_token():
     return session.get('gmail_token')
-
-# @app.route('/logout')
-# def logout():
-#     session.pop('gmail_token', None)
-#     return redirect(url_for('index'))
 
 @app.route("/logout")
 def logout():
