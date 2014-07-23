@@ -22,8 +22,8 @@ GoingPostal is the final project created during the Summer 2014 Hackbright Acade
   3.  If location is new, add location data to db
 3.  Display shipment paths and current location on a map
   1.  Add a map to html page
-  2.  Determine lat/long for each location from Google Maps API, save to db
-  3.  Create polyline for each shipment from Google Maps API, add to map
+  2.  Determine lat/long for each location from Google Maps Geocoding API, save to db
+  3.  Create polyline for each shipment from Google Maps Javascript API, add to map
 4.  Write job scheduler to check for package updates (once per day?)
 5.  Send a text message after being delivered
 
