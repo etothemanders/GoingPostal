@@ -10,25 +10,38 @@ GoingPostal is the final project created during the Summer 2014 Hackbright Acade
 ===
 # TODO
 
-1.  Fetch my shipment emails from Gmail - DONE
-  1.  Login - DONE
-  2.  Connect to Gmail API (Gmail OAuth?) - DONE
-  3.  Fetch emails (all? last 60 days? upper limit?) - DONE
-  4.  Find shipment confirmation emails - DONE
-  5.  Parse shipment number (and courier?) - DONE
-2.  Get package tracking numbers - DONE
-  1.  Add tracking number, courier info to db
-3.  Looks up their status and location from the courier
-  1.  Add location data to db
-  2.  Get all movement updates, add info to db
-4.  Display their paths and current location on a map
-5.  Send a text message (or call?) after being delivered
-6.  Load a user from the DB if one already exists
-7.  Save the actual shipment id for the locations
+0.  Check for logged in user
+1.  Check for new shipments
+  1.  Connect to Gmail API (Gmail OAuth) - DONE
+  2.  Fetch shipment emails (last 6 months) - DONE
+  3.  Parse tracking number and determine courier - DONE
+  4.  If a new tracking number from a courier that I can track, add to db
+2.  Check for new package locations
+  1.  Look up the current status of all tracking numbers
+  2.  If current status is not delivered, get tracking info from the courier
+  3.  If location is new, add location data to db
+3.  Display shipment paths and current location on a map
+  1.  Add a map to html page
+  2.  Determine lat/long for each location from Google Maps API, save to db
+  3.  Create polyline for each shipment from Google Maps API, add to map
+4.  Write job scheduler to check for package updates (once per day?)
+5.  Send a text message after being delivered
 
 ===
 
 # Daily Stand-Ups
+
+## 2014-07-23
+
+### Accomplished yesterday:
+1.  Finished refactoring some Python code
+2.  Created route and template html stub for my_shipments.html
+
+### Plan for today:
+1.  Add a map to html
+
+### Blockers:
+None right now.
 
 ## 2014-07-22
 
