@@ -87,12 +87,12 @@ class Location(Base):
 
     id = Column(Integer, primary_key = True)
     shipment_id = Column(Integer, ForeignKey('shipments.id'), nullable=False)
-    placename = Column(Integer, nullable=False)
-    latitude = Column(Integer, nullable=False)
-    longitude = Column(Integer, nullable = False)
+    placename = Column(String(128), nullable=False)
+    latitude = Column(Integer, nullable=True)
+    longitude = Column(Integer, nullable = True)
     timestamp = Column(Date, nullable=False)
-    title = Column(String(128), nullable=False)
-    imdb_url = Column(String(256))
+    status_description = Column(String(128), nullable=False)
+    tracking_url = Column(String(256))
 
 class Alert(Base):
     __tablename__ = "alerts"
