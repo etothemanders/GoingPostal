@@ -1,5 +1,5 @@
 from flask import Flask, session, request, render_template, flash, redirect, url_for, g, jsonify
-from model import session as db_session, User
+from model import session as db_session, User, Location
 
 from app import app, gmail
 import email_helper
@@ -51,7 +51,26 @@ def authorized(resp):
 
 @app.route("/my_shipments")
 def show_map():
-    return render_template('my_shipments.html')
+    row = db_session.query(Location).filter_by(shipment_id=1).filter_by(id=9).one()
+    return render_template('my_shipments.html',
+                            location_id=row.id,
+                            location=row.placename)
+
+
+@app.route("/save_location", methods=['POST'])
+def save_location():
+    data = request.form
+    if data is None:
+        return 'Did not receive any data: reason=%s error=%s' % (
+            request.args['error_reason'],
+            request.args['error_description'])
+    else:
+        location_id = data['id']
+        latlong = data['latlong']
+        print "python thinks the location is: ", location_id
+        print "python thinks the latlong is: ", latlong
+    return jsonify({"data": data})
+
 
 @gmail.tokengetter
 def get_gmail_oauth_token():
