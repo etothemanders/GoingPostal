@@ -122,8 +122,7 @@ def parse_location(activity_dict):
                     status = activity['Status']['StatusType']['Description']
                     location = Location(shipment_id=shipment_id, 
                                         placename=city, 
-                                        latitude=99,
-                                        longitude=99,
+                                        latlong="None",
                                         timestamp=date,
                                         status_description=status,
                                         tracking_url='Need to get this.')
