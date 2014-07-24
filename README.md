@@ -31,6 +31,20 @@ GoingPostal is the final project created during the Summer 2014 Hackbright Acade
 
 # Daily Stand-Ups
 
+## 2014-07-24
+
+### Accomplished yesterday:
+1.  Added a map to my_shipments.html
+2.  Figured out how to get a latlong from Google's Geocoding API
+
+### Plan for today:
+1.  Get a latlong for all locations
+2.  Save the lat longs to the db
+
+### Blockers:
+1.  Need to learn how to write an ajax request to send the latlong back to my 
+    Flask app.
+
 ## 2014-07-23
 
 ### Accomplished yesterday:
@@ -39,6 +53,7 @@ GoingPostal is the final project created during the Summer 2014 Hackbright Acade
 
 ### Plan for today:
 1.  Add a map to html
+2.  Get lat/long for each shipment location using Google Maps Geocoding API
 
 ### Blockers:
 None right now.
