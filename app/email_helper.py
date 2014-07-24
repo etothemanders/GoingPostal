@@ -125,8 +125,8 @@ def parse_location(activity_dict):
                                         latitude=99,
                                         longitude=99,
                                         timestamp=date,
-                                        title=status,
-                                        imdb_url='Need to get this.')
+                                        status_description=status,
+                                        tracking_url='Need to get this.')
                     db_session.add(location)
     db_session.commit()
 
