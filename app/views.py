@@ -66,10 +66,8 @@ def save_location():
     else:
         location_id = data['id']
         latlong = data['latlong']
-        db_session.query(Location).filter_by(id=9).update({"latlong": "(35.4675602, -97.51642759999999)"})
+        db_session.query(Location).filter_by(id=location_id).update({"latlong": latlong})
         db_session.commit()
-        print "python thinks the location is: ", location_id
-        print "python thinks the latlong is: ", latlong
     return jsonify({"data": data})
 
 
