@@ -25,23 +25,19 @@
   }
 
   function getLatLongs() {
-  	for (item in rows) {
-
+    // receive json object from "/my_shipments" route
+    var rows = {{ all_rows|safe }}
+  	for (i = 0; i < rows.length; i++) {
+      var loc_id = rows[i]['id'];
+      var location = rows[i]['placename'];
+      getLatLong(loc_id, location);
   	}
   }
 
-
-  function getLatLong() {
-  	var row = {{ row|safe }} 
-  	var loc_id = row.id
-  	var location = row.placename
-
-	console.log("loc_id is: " + loc_id);
-	console.log("location is: " + location);
+  function getLatLong(loc_id, location) {
     geocoder.geocode({ 'address': location }, function(results, status) {
     	if (status == google.maps.GeocoderStatus.OK) {
 			var result = results[0].geometry.location;
-			console.log("result is: " + result);
 			makeSaveLocRequest(loc_id, result);
 		} else {
 			alert("Geocode was not successful for the following reason: " + status);
@@ -61,6 +57,7 @@
   		console.log("makeSaveLocRequest failed.");
   	}).done(function(resp){
   		console.log(" makeSaveLocRequest succeeded.");
+      // can I make another AJAX request to update the duplicate cities in my db?
   	});
   }
 

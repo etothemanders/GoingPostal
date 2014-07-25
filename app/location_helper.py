@@ -8,6 +8,20 @@ def save_location(data):
 	db_session.query(Location).filter_by(id=location_id).update({"latlong": latlong})
 	db_session.commit()
 
+def get_unique_rows(rows):
+	"""Receives a list of Flask location objects, returns a list of Flask
+	location objects that each have a unique placename."""
+	unlocated_rows = rows
+	cities = {}
+	for row in unlocated_rows:
+		city = row.placename
+		if not cities.get(city, False):
+			cities[city] = row
+	return_rows = []
+	for city in cities:
+		return_rows.append(cities[city])
+	return return_rows
+
 
 def row2dict(row):
 	"""Converts a sql alchemy query object to a dictionary.

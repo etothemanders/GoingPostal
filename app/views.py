@@ -51,15 +51,20 @@ def authorized(resp):
 
 @app.route("/my_shipments")
 def show_map():
-    row = db_session.query(Location).filter_by(latlong='None').first()
-    # call helper function, pass it row
-    row_dict = location_helper.row2dict(row)
-    print row_dict
-    # json.dumps(output of the helper function)
-    row_json = json.dumps(row_dict)
-    # pass the json to render_template
+    all_rows = db_session.query(Location).filter_by(latlong='None').all()
+    # get just the unique locations
+    unique_rows = location_helper.get_unique_rows(all_rows)
+    jsonified_rows = []
+    for row in unique_rows:
+        # convert the row object to a dictionary
+        row_dict = location_helper.row2dict(row)
+        print row_dict
+        # append to jsonified_rows list
+        jsonified_rows.append(row_dict)
+    # turn the list into json
+    jsonified_rows = json.dumps(jsonified_rows)
     return render_template('my_shipments.html',
-                            row=row_json)
+                            all_rows=jsonified_rows)
                             # location_id=row.id,
                             # location=row.placename)
 
