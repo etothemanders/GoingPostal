@@ -1,3 +1,4 @@
+import json
 from flask import Flask, session, request, render_template, flash, redirect, url_for, g, jsonify
 from model import session as db_session, User, Location
 from app import app, gmail
@@ -51,9 +52,16 @@ def authorized(resp):
 @app.route("/my_shipments")
 def show_map():
     row = db_session.query(Location).filter_by(latlong='None').first()
+    # call helper function, pass it row
+    row_dict = location_helper.row2dict(row)
+    print row_dict
+    # json.dumps(output of the helper function)
+    row_json = json.dumps(row_dict)
+    # pass the json to render_template
     return render_template('my_shipments.html',
-                            location_id=row.id,
-                            location=row.placename)
+                            row=row_json)
+                            # location_id=row.id,
+                            # location=row.placename)
 
 
 @app.route("/save_location", methods=['POST'])

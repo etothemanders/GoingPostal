@@ -3,7 +3,8 @@
 <h2>Your Shipments</h2>
 
 <div id="map-canvas"></div>
-    
+
+
 <script type="text/javascript"
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXorWmQbNW4J7fGwSSpoZjjd9IgNvOGSQ">
 </script>
@@ -23,22 +24,29 @@
         					  mapOptions);
   }
 
+  function getLatLongs() {
+  	for (item in rows) {
+
+  	}
+  }
+
 
   function getLatLong() {
-  	var location = { {{ location_id }}: "{{location}}" }
-  	for (loc_id in location) {
-  		console.log("loc_id is: ", + loc_id);
-  		console.log("location[loc_id] is: " + location[loc_id]);
-	    geocoder.geocode({ 'address': location[loc_id]}, function(results, status) {
-	    	if (status == google.maps.GeocoderStatus.OK) {
-				var result = results[0].geometry.location;
-				console.log("result is: " + result);
-				makeSaveLocRequest(loc_id, result);
-			} else {
-				alert("Geocode was not successful for the following reason: " + status);
-			}
-		});
-  	}
+  	var row = {{ row|safe }} 
+  	var loc_id = row.id
+  	var location = row.placename
+
+	console.log("loc_id is: " + loc_id);
+	console.log("location is: " + location);
+    geocoder.geocode({ 'address': location }, function(results, status) {
+    	if (status == google.maps.GeocoderStatus.OK) {
+			var result = results[0].geometry.location;
+			console.log("result is: " + result);
+			makeSaveLocRequest(loc_id, result);
+		} else {
+			alert("Geocode was not successful for the following reason: " + status);
+		}
+	});
   }
 
   function makeSaveLocRequest(loc_id, latlong) {
