@@ -1,7 +1,7 @@
 from flask import Flask, session, request, render_template, flash, redirect, url_for, g, jsonify
 from model import session as db_session, User, Location
 from app import app, gmail
-import email_helper
+import email_helper, location_helper
 
 
 @app.teardown_request
@@ -64,10 +64,7 @@ def save_location():
             request.args['error_reason'],
             request.args['error_description'])
     else:
-        location_id = data['id']
-        latlong = data['latlong']
-        db_session.query(Location).filter_by(id=location_id).update({"latlong": latlong})
-        db_session.commit()
+        location_helper.save_location(data)
     return jsonify({"data": data})
 
 
