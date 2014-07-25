@@ -32,3 +32,13 @@ def row2dict(row):
 		d[column.name] = str(getattr(row, column.name))
 	return d
 
+def backfill(data):
+	"""Adds latlongs to duplicate cities."""
+	location_row_id = data['id']
+	latlong = data['latlong']
+	# This query returns a tuple
+	city = db_session.query(Location.placename).filter_by(id=location_row_id).one()
+	# So we just want the [0] one
+	city = city[0]
+	db_session.query(Location).filter_by(placename=city).update({'latlong': latlong})
+	db_session.commit()

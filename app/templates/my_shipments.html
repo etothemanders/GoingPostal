@@ -53,11 +53,29 @@
   			id: loc_id,
   			latlong: latlong.toString()
   		}
+      // If the save request failed.
   	}).fail(function(resp){
   		console.log("makeSaveLocRequest failed.");
+      // If the save was successful, 
+      // make another AJAX request to write this latlong to all 
+      // location records in the same city.
   	}).done(function(resp){
   		console.log(" makeSaveLocRequest succeeded.");
-      // can I make another AJAX request to update the duplicate cities in my db?
+
+      var data = resp.data;
+      $.ajax({
+        url: "/backfill_latlongs",
+        type: "POST",
+        data: {
+          id: data.id,
+          latlong: data.latlong.toString()
+        }
+      }).fail(function(resp) {
+        console.log("backfill request failed.");
+      }).done(function(resp) {
+        console.log("backfill request succeeded.");
+        console.log(resp);
+      });
   	});
   }
 

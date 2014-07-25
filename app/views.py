@@ -65,8 +65,6 @@ def show_map():
     jsonified_rows = json.dumps(jsonified_rows)
     return render_template('my_shipments.html',
                             all_rows=jsonified_rows)
-                            # location_id=row.id,
-                            # location=row.placename)
 
 
 @app.route("/save_location", methods=['POST'])
@@ -78,7 +76,21 @@ def save_location():
             request.args['error_description'])
     else:
         location_helper.save_location(data)
-    return jsonify({"data": data})
+    # I don't think this return is actually working...oh, wait, is it
+    # returning 'data' to the javascript callback?
+    return jsonify({'data': data})
+
+
+@app.route("/backfill_latlongs", methods=['POST'])
+def backfill_locations():
+    data = request.form
+    if data is None:
+        return 'Did not receive any data: reason=%s error=%s' % (
+            request.args['error_reason'],
+            request.args['error_description'])
+    else:
+        location_helper.backfill(data)
+    return jsonify({ 'backfill_response': data })
 
 
 @gmail.tokengetter
