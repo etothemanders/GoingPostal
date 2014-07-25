@@ -31,6 +31,20 @@ GoingPostal is the final project created during the Summer 2014 Hackbright Acade
 
 # Daily Stand-Ups
 
+## 2014-07-25
+
+### Accomplished yesterday:
+1.  Able to call getLatLong() from browser console and save a latlong for one 
+    location to the db
+
+### Plan for today:
+1.  Get latlongs for all locations that need them
+2.  Call getLatLong() after browser loads rather than from the console
+3.  Figure out how to draw a polyline on the map of a shipment's path
+
+### Blockers
+None at the moment.
+
 ## 2014-07-24
 
 ### Accomplished yesterday:
