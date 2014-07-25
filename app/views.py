@@ -50,7 +50,7 @@ def authorized(resp):
 
 @app.route("/my_shipments")
 def show_map():
-    row = db_session.query(Location).filter_by(shipment_id=1).filter_by(id=9).one()
+    row = db_session.query(Location).filter_by(latlong='None').first()
     return render_template('my_shipments.html',
                             location_id=row.id,
                             location=row.placename)
