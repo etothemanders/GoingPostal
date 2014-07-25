@@ -27,7 +27,7 @@
   function getLatLongs() {
     // receive json object from "/my_shipments" route
     var rows = {{ all_rows|safe }}
-  	for (i = 0; i < rows.length; i++) {
+  	for (var i = 0; i < rows.length; i++) {
       var loc_id = rows[i]['id'];
       var location = rows[i]['placename'];
       getLatLong(loc_id, location);
@@ -47,7 +47,7 @@
 
   function makeSaveLocRequest(loc_id, latlong) {
   	$.ajax({
-  		url : "http://localhost:5050/save_location",
+  		url : "/save_location",
   		type: "POST",
   		data: {
   			id: loc_id,
