@@ -4,17 +4,19 @@
 
 <div id="map-canvas"></div>
 
-
+<!--check that this key is the public javascript key not the private server key-->
 <script type="text/javascript"
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXorWmQbNW4J7fGwSSpoZjjd9IgNvOGSQ">
 </script>
 <script type="text/javascript">
+
   var geocoder;
   var map;
 
 
   function initialize() {
   	geocoder = new google.maps.Geocoder();
+    //Center on the browser's location
   	var latlng = new google.maps.LatLng(37.7833, -122.4167);
     var mapOptions = {
       center: latlng,
@@ -22,6 +24,8 @@
     };
     map = new google.maps.Map(document.getElementById("map-canvas"),
         					  mapOptions);
+
+    getLatLongs();
   }
 
   function getLatLongs() {
@@ -47,6 +51,7 @@
 
   function makeSaveLocRequest(loc_id, latlong) {
   	$.ajax({
+      // add the backfill call to this route
   		url : "/save_location",
   		type: "POST",
   		data: {
