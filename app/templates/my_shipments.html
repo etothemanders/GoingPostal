@@ -4,7 +4,7 @@
 
 <div id="map-canvas"></div>
 
-<!--check that this key is the public javascript key not the private server key-->
+<!--this is a browser key, need to edit allowed referrers-->
 <script type="text/javascript"
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXorWmQbNW4J7fGwSSpoZjjd9IgNvOGSQ">
 </script>
@@ -26,6 +26,7 @@
         					  mapOptions);
 
     getLatLongs();
+
   }
 
   function getLatLongs() {
@@ -51,37 +52,22 @@
 
   function makeSaveLocRequest(loc_id, latlong) {
   	$.ajax({
-      // add the backfill call to this route
   		url : "/save_location",
   		type: "POST",
   		data: {
   			id: loc_id,
   			latlong: latlong.toString()
   		}
-      // If the save request failed.
+    // If the save request failed.
   	}).fail(function(resp){
   		console.log("makeSaveLocRequest failed.");
-      // If the save was successful, 
-      // make another AJAX request to write this latlong to all 
-      // location records in the same city.
+    // If the save request was successful.
   	}).done(function(resp){
   		console.log(" makeSaveLocRequest succeeded.");
-
-      var data = resp.data;
-      $.ajax({
-        url: "/backfill_latlongs",
-        type: "POST",
-        data: {
-          id: data.id,
-          latlong: data.latlong.toString()
-        }
-      }).fail(function(resp) {
-        console.log("backfill request failed.");
-      }).done(function(resp) {
-        console.log("backfill request succeeded.");
-        console.log(resp);
-      });
-  	});
+    //After the save location route, always do this
+    }).always(function(resp) {
+        map.data.loadGeoJson('/load_GeoJson');
+    });
   }
 
 

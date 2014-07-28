@@ -76,21 +76,31 @@ def save_location():
             request.args['error_description'])
     else:
         location_helper.save_location(data)
-    # I don't think this return is actually working...oh, wait, is it
-    # returning 'data' to the javascript callback?
+        location_helper.backfill(data)
+    # What do I actually want to return here?...
     return jsonify({'data': data})
 
 
-@app.route("/backfill_latlongs", methods=['POST'])
-def backfill_locations():
-    data = request.form
-    if data is None:
-        return 'Did not receive any data: reason=%s error=%s' % (
-            request.args['error_reason'],
-            request.args['error_description'])
-    else:
-        location_helper.backfill(data)
-    return jsonify({ 'backfill_response': data })
+@app.route("/load_GeoJson", methods=['GET'])
+def load_geojson():
+    geo_json_dict = {
+        'type': 'Feature',
+        'geometry': {
+            'type': 'LineString',
+            'coordinates': [
+                [37.7749, -122.4194],
+                [35.4675, -97.5164]
+            ]
+        },
+        'properties': {
+            'strokeColor': '#FF0000',
+            'strokeOpacity': 1.0,
+            'strokeWeight': 2
+        }
+    }
+    geo_json = json.dumps(geo_json_dict)
+    print geo_json
+    return geo_json
 
 
 @gmail.tokengetter
