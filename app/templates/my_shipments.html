@@ -26,7 +26,7 @@
         					  mapOptions);
 
     getLatLongs();
-
+    //map.data.loadGeoJson('https://storage.googleapis.com/maps-devrel/google.json');
   }
 
   function getLatLongs() {
@@ -66,6 +66,7 @@
   		console.log(" makeSaveLocRequest succeeded.");
     //After the save location route, always do this
     }).always(function(resp) {
+        console.log('hello');
         map.data.loadGeoJson('/load_GeoJson');
     });
   }

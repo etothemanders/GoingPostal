@@ -84,19 +84,39 @@ def save_location():
 @app.route("/load_GeoJson", methods=['GET'])
 def load_geojson():
     geo_json_dict = {
-        'type': 'Feature',
-        'geometry': {
-            'type': 'LineString',
-            'coordinates': [
-                [37.7749, -122.4194],
-                [35.4675, -97.5164]
-            ]
-        },
-        'properties': {
-            'strokeColor': '#FF0000',
-            'strokeOpacity': 1.0,
-            'strokeWeight': 2
-        }
+        "type": "FeatureCollection",
+        "features": [
+            {
+                "type": "Feature",
+                "geometry": {
+                    "type": "LineString",
+                    "coordinates": [
+                        [254.8828, 39.9434],
+                        [237.6123, 37.8921]
+                    ]
+                },
+                "properties": {
+                    "strokeColor": "#FF0000",
+                    "strokeOpacity": 1.0,
+                    "strokeWeight": 2
+                }
+            },
+            {
+                "type": "Feature",
+                "geometry": {
+                    "type": "LineString",
+                    "coordinates": [
+                        [248.0273, 33.7243],
+                        [241.7431, 34.1981]
+                    ]
+                },
+                "properties": {
+                    "strokeColor": "blue",
+                    "strokeOpacity": 1.0,
+                    "strokeWeight": 2
+                }
+            }
+        ]
     }
     geo_json = json.dumps(geo_json_dict)
     print geo_json
