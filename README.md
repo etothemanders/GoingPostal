@@ -1,7 +1,9 @@
 GoingPostal
 ===========
 
-Track your online shipments in this responsive web app.
+A responsive web app that checks for shipment confirmation emails in Gmail,
+finds tracking numbers (currently only UPS tracking numbers), and plots a 
+shipment's progress to its destination on a map.
 
 GoingPostal is the final project created during the Summer 2014 Hackbright Academy Software Engineering Fellowship.
 
@@ -30,6 +32,17 @@ GoingPostal is the final project created during the Summer 2014 Hackbright Acade
 ===
 
 # Daily Stand-Ups
+
+## 2014-07-28
+
+### Accomplished Friday:
+1.  Got latlongs for all locations after map initializes, not from console call
+
+### Plan for today:
+1.  Draw a polyline of a shipment's path on the map
+
+### Blockers:
+1.  None right now, just a lot to do this week.
 
 ## 2014-07-25
 
