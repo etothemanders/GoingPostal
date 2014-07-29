@@ -4,8 +4,11 @@ def save_location(data):
 	"""Receives a data object with location_id and latlong properties, 
 	and updates	the latlong value in the db for that location id."""
 	location_id = data['id']
-	latlong = data['latlong']
-	db_session.query(Location).filter_by(id=location_id).update({"latlong": latlong})
+	#latlong = data['latlong']
+	latitude = data['latitude']
+	longitude = data['longitude']
+	#db_session.query(Location).filter_by(id=location_id).update({"latlong": latlong})
+	db_session.query(Location).filter_by(id=location_id).update({"latitude": latitude, "longitude": longitude})
 	db_session.commit()
 
 def get_unique_rows(rows):
@@ -35,10 +38,13 @@ def row2dict(row):
 def backfill(data):
 	"""Adds latlongs to duplicate cities."""
 	location_row_id = data['id']
-	latlong = data['latlong']
+	#latlong = data['latlong']
+	latitude = data['latitude']
+	longitude = data['longitude']
 	# This query returns a tuple
 	city = db_session.query(Location.placename).filter_by(id=location_row_id).one()
 	# So we just want the [0] one
 	city = city[0]
-	db_session.query(Location).filter_by(placename=city).update({'latlong': latlong})
+	#db_session.query(Location).filter_by(placename=city).update({'latlong': latlong})
+	db_session.query(Location).filter_by(placename=city).update({"latitude": latitude, "longitude": longitude})
 	db_session.commit()

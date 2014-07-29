@@ -16,22 +16,26 @@
 
   function initialize() {
   	geocoder = new google.maps.Geocoder();
-    //Center on the browser's location
-  	var latlng = new google.maps.LatLng(37.7833, -122.4167);
+    //TODO: Center on the browser's location
+  	var latlng = new google.maps.LatLng(36.3955, -97.8783);
     var mapOptions = {
       center: latlng,
-      zoom: 8
+      zoom: 5
     };
     map = new google.maps.Map(document.getElementById("map-canvas"),
         					  mapOptions);
 
     getLatLongs();
-    //map.data.loadGeoJson('https://storage.googleapis.com/maps-devrel/google.json');
   }
 
   function getLatLongs() {
     // receive json object from "/my_shipments" route
     var rows = {{ all_rows|safe }}
+    // If there weren't any new locations to add, plot the paths
+    if (rows.length === 0) {
+      map.data.loadGeoJson('/load_GeoJson');
+    }
+    // If there were new locations to geocode, geocode them
   	for (var i = 0; i < rows.length; i++) {
       var loc_id = rows[i]['id'];
       var location = rows[i]['placename'];
@@ -43,20 +47,25 @@
     geocoder.geocode({ 'address': location }, function(results, status) {
     	if (status == google.maps.GeocoderStatus.OK) {
 			var result = results[0].geometry.location;
-			makeSaveLocRequest(loc_id, result);
+      var latitude = result.k;
+      var longitude = result.B;
+      console.log("latitude is " + latitude + "longitude is " + longitude);
+      console.log(typeof(latitude));
+			makeSaveLocRequest(loc_id, latitude, longitude);
 		} else {
 			alert("Geocode was not successful for the following reason: " + status);
 		}
 	});
   }
 
-  function makeSaveLocRequest(loc_id, latlong) {
+  function makeSaveLocRequest(loc_id, latitude, longitude) {
   	$.ajax({
   		url : "/save_location",
   		type: "POST",
   		data: {
   			id: loc_id,
-  			latlong: latlong.toString()
+        latitude: latitude.toString(),
+        longitude: longitude.toString()
   		}
     // If the save request failed.
   	}).fail(function(resp){

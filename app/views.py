@@ -51,7 +51,7 @@ def authorized(resp):
 
 @app.route("/my_shipments")
 def show_map():
-    all_rows = db_session.query(Location).filter_by(latlong='None').all()
+    all_rows = db_session.query(Location).filter_by(latitude='None').all()
     # get just the unique locations
     unique_rows = location_helper.get_unique_rows(all_rows)
     jsonified_rows = []
@@ -91,8 +91,8 @@ def load_geojson():
                 "geometry": {
                     "type": "LineString",
                     "coordinates": [
-                        [254.8828, 39.9434],
-                        [237.6123, 37.8921]
+                        [-104.9847, 39.9434],
+                        [-122.4194, 37.8921]
                     ]
                 },
                 "properties": {
@@ -106,8 +106,8 @@ def load_geojson():
                 "geometry": {
                     "type": "LineString",
                     "coordinates": [
-                        [248.0273, 33.7243],
-                        [241.7431, 34.1981]
+                        [-112.0740, 33.7243],
+                        [-118.2436, 34.1981]
                     ]
                 },
                 "properties": {
@@ -119,7 +119,6 @@ def load_geojson():
         ]
     }
     geo_json = json.dumps(geo_json_dict)
-    print geo_json
     return geo_json
 
 
