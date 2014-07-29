@@ -1,8 +1,8 @@
 import json
 from flask import Flask, session, request, render_template, flash, redirect, url_for, g, jsonify
-from model import session as db_session, User, Location
+from model import session as db_session, User, Shipment, Location
 from app import app, gmail
-import email_helper, location_helper
+import email_helper, location_helper, path_helper
 
 
 @app.teardown_request
@@ -58,7 +58,6 @@ def show_map():
     for row in unique_rows:
         # convert the row object to a dictionary
         row_dict = location_helper.row2dict(row)
-        print row_dict
         # append to jsonified_rows list
         jsonified_rows.append(row_dict)
     # turn the list into json
@@ -83,41 +82,20 @@ def save_location():
 
 @app.route("/load_GeoJson", methods=['GET'])
 def load_geojson():
-    geo_json_dict = {
-        "type": "FeatureCollection",
-        "features": [
-            {
-                "type": "Feature",
-                "geometry": {
-                    "type": "LineString",
-                    "coordinates": [
-                        [-104.9847, 39.9434],
-                        [-122.4194, 37.8921]
-                    ]
-                },
-                "properties": {
-                    "strokeColor": "#FF0000",
-                    "strokeOpacity": 1.0,
-                    "strokeWeight": 2
-                }
-            },
-            {
-                "type": "Feature",
-                "geometry": {
-                    "type": "LineString",
-                    "coordinates": [
-                        [-112.0740, 33.7243],
-                        [-118.2436, 34.1981]
-                    ]
-                },
-                "properties": {
-                    "strokeColor": "blue",
-                    "strokeOpacity": 1.0,
-                    "strokeWeight": 2
-                }
-            }
-        ]
-    }
+    # MUST USE DOUBLE QUOTES AROUND THE GEO_JSON_DICT STRINGS
+    # Query for shipments (ideally, undelivered)
+    shipments = db_session.query(Shipment).filter_by(user_id=session['user_id']).all()
+    # If shipments to draw, create template json dict
+    if shipments:
+        geo_json_dict = {
+            "type": "FeatureCollection",
+            "features": []
+        }
+        # For each shipment, create a template Feature, append to features
+        for shipment in shipments:
+            geo_json_dict["features"].append(path_helper.create_feature(shipment))
+    else:
+        geo_json_dict = {}
     geo_json = json.dumps(geo_json_dict)
     return geo_json
 
