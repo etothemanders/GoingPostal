@@ -16,6 +16,9 @@ function initialize() {
   getLatLongs();
 }
 
+google.maps.event.addDomListener(window, 'load', initialize);
+
+
 function getLatLongs() {
   $.ajax({
     url: "/get_latlongs",
@@ -74,7 +77,3 @@ function makeSaveLocRequest(loc_id, latitude, longitude) {
       map.data.loadGeoJson('/load_GeoJson');
   });
 }
-
-
-
-google.maps.event.addDomListener(window, 'load', initialize);
