@@ -51,19 +51,20 @@ def authorized(resp):
 
 @app.route("/my_shipments")
 def show_map():
+    return render_template('my_shipments.html')
+
+@app.route("/get_latlongs")
+def get_latlongs():
     all_rows = db_session.query(Location).filter_by(latitude='None').all()
-    # get just the unique locations
+    #get just the unique locations
     unique_rows = location_helper.get_unique_rows(all_rows)
     jsonified_rows = []
     for row in unique_rows:
-        # convert the row object to a dictionary
+        # convert the SQL Alchemy row object to a dictionary
         row_dict = location_helper.row2dict(row)
-        # append to jsonified_rows list
         jsonified_rows.append(row_dict)
-    # turn the list into json
-    jsonified_rows = json.dumps(jsonified_rows)
-    return render_template('my_shipments.html',
-                            all_rows=jsonified_rows)
+    # turn the list into a json object
+    return jsonify({'resp': jsonified_rows})
 
 
 @app.route("/save_location", methods=['POST'])

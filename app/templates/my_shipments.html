@@ -29,10 +29,16 @@
   }
 
   function getLatLongs() {
-    // receive json object from "/my_shipments" route
-    var rows = {{ all_rows|safe }}
+    $.ajax({
+      url: "/get_latlongs",
+      type: "GET"
+    }).fail(function(resp){
+      console.log("getLatLongs failed.");
+    }).done(function(resp){
+    var rows = resp['resp'];
     // If there weren't any new locations to add, plot the paths
     if (rows.length === 0) {
+      console.log("No rows in response.");
       map.data.loadGeoJson('/load_GeoJson');
     }
     // If there were new locations to geocode, geocode them
@@ -40,7 +46,8 @@
       var loc_id = rows[i]['id'];
       var location = rows[i]['placename'];
       getLatLong(loc_id, location);
-  	}
+  	  }
+    });
   }
 
   function getLatLong(loc_id, location) {
