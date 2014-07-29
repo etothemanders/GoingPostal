@@ -22,6 +22,20 @@
 
 # Daily Stand-Up Notes
 
+## 2014-07-29
+
+### Accomplished yesterday:
+1.  Drew my package paths on a Google map!!
+
+### Plan for today:
+Oh gosh, so much to do.
+1.  Add a list of shipments to my_shipments page.
+2.  Add a marker showing where the package originated, add a marker showing
+    where it was delivered?
+
+### Blockers
+None right now.
+
 ## 2014-07-28
 
 ### Accomplished Friday:
