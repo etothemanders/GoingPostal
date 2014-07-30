@@ -1,8 +1,17 @@
 {% extends 'layout.html' %}
+
 {% block body %}
+
 <div class="container-fluid">
   <h1>Your Shipments</h1>
 </div>
+
+<table class="table table-striped">
+    <tr><th>Last Activity</th><th>Tracking Number</th><th>Last Location</th><th>Package Status</th></tr>
+    {% for shipment in shipments %}
+    <tr><td>{{ shipment }}</td><td>{{ shipment.tracking_no }}</td><td> </td><td> </td></tr>
+    {% endfor %}
+</table>
 
 <div class="container-fluid">
   <div id="map-canvas"></div>
