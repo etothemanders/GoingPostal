@@ -22,6 +22,19 @@
 
 # Daily Stand-Up Notes
 
+## 2014-07-30
+
+### Accomplished yesterday:
+1.  Added table of shipments to my_shipments page.
+2.  Added Bootstrap to the app, started styling
+
+### Plan for today:
+1.  Investigate adding a map marker for package's last location
+2.  Style the cover page.
+
+### Blockers
+None right now.
+
 ## 2014-07-29
 
 ### Accomplished yesterday:
