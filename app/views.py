@@ -51,9 +51,16 @@ def authorized(resp):
 
 @app.route("/my_shipments")
 def show_map():
+    shipments_info = []
     shipments = db_session.query(Shipment).filter_by(user_id=session['user_id']).all()
+    for shipment in shipments:
+        shipment_info = []
+        shipment_info.append(shipment)
+        last_activity = shipment.get_last_activity()
+        shipment_info.append(last_activity)
+        shipments_info.append(shipment_info)
     return render_template('my_shipments.html',
-                            shipments=shipments)
+                            shipments=shipments_info)
 
 @app.route("/get_latlongs")
 def get_latlongs():
