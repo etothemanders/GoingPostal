@@ -2,8 +2,18 @@
 
 {% block body %}
 
-<h1>Going Postal</h1>
+<div class="container-fluid">
+	<div class="row">
+		<h1 class="masthead">Going Postal</h1>
+	</div>
+</div>
 
-<a href="{{url_for('login')}}">Track my Shipments!</a>
+<div class="container-fluid">
+	<div class="row">
+		<div class="mastheadaction">
+			<a class="mastheadaction" href="{{url_for('login')}}">Track my Shipments!</a>
+		</div>
+	</div>
+</div>
 
 {% endblock %}
