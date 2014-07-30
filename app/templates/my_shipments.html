@@ -6,29 +6,31 @@
   <h1>Your Shipments</h1>
 </div>
 
-<table class="table table-striped">
-    <tr>
-      <th>Last Activity</th>
-      <th>Tracking Number</th>
-      <th>Last Location</th>
-      <th>Package Status</th>
-    </tr>
-    {% for shipment, last_activity in shipments %}
-    <tr>
-      <td>{{ last_activity.timestamp }}</td>
-      <td>{{ shipment.tracking_no }}</td>
-      <td>{{ last_activity.placename }}</td>
-      <td>{{ last_activity.status_description }}</td>
-    </tr>
-    {% endfor %}
-</table>
+<div class="container-fluid">
+  <table class="table table-striped">
+      <tr>
+        <th>Last Activity</th>
+        <th>Tracking Number</th>
+        <th>Last Location</th>
+        <th>Package Status</th>
+      </tr>
+      {% for shipment, last_activity in shipments %}
+      <tr>
+        <td>{{ last_activity.timestamp }}</td>
+        <td>{{ shipment.tracking_no }}</td>
+        <td>{{ last_activity.placename }}</td>
+        <td>{{ last_activity.status_description }}</td>
+      </tr>
+      {% endfor %}
+  </table>
+</div>
 
 <div class="container-fluid">
   <div id="map-canvas"></div>
 </div>
 <!--this is a browser key, need to edit allowed referrers-->
 <script type="text/javascript"
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXorWmQbNW4J7fGwSSpoZjjd9IgNvOGSQ">
+        src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_MAPS}}">
 </script>
 <script type="text/javascript" src="/static/mapper.js"></script>
 

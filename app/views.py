@@ -30,6 +30,7 @@ def authorized(resp):
             request.args['error_reason'],
             request.args['error_description']
         )
+    # Check if that user already exists
     session['gmail_token'] = (resp['access_token'], )
 
     gmail_user = gmail.get('userinfo')
@@ -60,7 +61,8 @@ def show_map():
         shipment_info.append(last_activity)
         shipments_info.append(shipment_info)
     return render_template('my_shipments.html',
-                            shipments=shipments_info)
+                            shipments=shipments_info,
+                            GOOGLE_MAPS=app.config.get('GOOGLE_MAPS'))
 
 @app.route("/get_latlongs")
 def get_latlongs():
