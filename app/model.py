@@ -82,6 +82,11 @@ class Shipment(Base):
     user = relationship("User", backref="shipments")
     #courier = relationship("Courier", backref="shipments")
 
+    def get_last_activity(self):
+        last_activty = session.query(Location).filter_by(shipment_id=self.id).order_by(Location.timestamp.desc()).first()
+        print last_activty
+        return last_activty
+
 class Location(Base):
     __tablename__ = "locations"
 
