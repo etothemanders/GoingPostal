@@ -14,6 +14,27 @@ function initialize() {
       					  mapOptions);
 
   getLatLongs();
+
+  map.data.setStyle(function(feature) {
+    var color = "gray";
+
+    return ({
+      strokeColor: color,
+    });
+  });
+
+  map.data.addListener('mouseover', function(event) {
+    console.log("You moused over something.");
+    map.data.revertStyle();
+    map.data.overrideStyle(event.feature, {
+        strokeColor: event.feature.getProperty('strokeColor')
+    });
+  });
+
+  map.data.addListener('mouseout', function(event) {
+    console.log("You moused out.");
+    map.data.revertStyle();
+  });
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
