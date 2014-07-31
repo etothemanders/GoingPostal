@@ -51,7 +51,7 @@ def create_feature(shipment):
 				"coordinates": []
 			},
 			"properties": {
-				"strokeColor": "#FF0000",
+				"strokeColor": "#339999",
 				"strokeOpacity": 1.0,
 				"strokeWeight": 2
 			}
