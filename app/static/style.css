@@ -1,0 +1,8 @@
+table thead {
+	background-color: #F0F0F0;
+}
+
+tbody tr:hover {
+	background-color: #339999;
+	color: #FFF;
+};

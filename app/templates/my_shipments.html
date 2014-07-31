@@ -7,13 +7,16 @@
 </div>
 
 <div class="container-fluid">
-  <table class="table table-striped">
+  <table class="table">
+    <thead>
       <tr>
         <th>Last Activity</th>
         <th>Tracking Number</th>
         <th>Last Location</th>
         <th>Package Status</th>
       </tr>
+    </thead>
+    <tbody>
       {% for shipment, last_activity in shipments %}
       <tr>
         <td>{{ last_activity.timestamp }}</td>
@@ -22,6 +25,7 @@
         <td>{{ last_activity.status_description }}</td>
       </tr>
       {% endfor %}
+    </tbody>
   </table>
 </div>
 
