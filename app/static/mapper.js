@@ -14,27 +14,8 @@ function initialize() {
       					  mapOptions);
 
   getLatLongs();
+  colorizePaths();
 
-  map.data.setStyle(function(feature) {
-    var color = "gray";
-
-    return ({
-      strokeColor: color,
-    });
-  });
-
-  map.data.addListener('mouseover', function(event) {
-    console.log("You moused over something.");
-    map.data.revertStyle();
-    map.data.overrideStyle(event.feature, {
-        strokeColor: event.feature.getProperty('strokeColor')
-    });
-  });
-
-  map.data.addListener('mouseout', function(event) {
-    console.log("You moused out.");
-    map.data.revertStyle();
-  });
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
@@ -96,5 +77,28 @@ function makeSaveLocRequest(loc_id, latitude, longitude) {
   }).always(function(resp) {
       console.log('hello');
       map.data.loadGeoJson('/load_GeoJson');
+  });
+}
+
+function colorizePaths() {
+  map.data.setStyle(function(feature) {
+    var color = "gray";
+
+    return ({
+      strokeColor: color,
+    });
+  });
+
+  map.data.addListener('mouseover', function(event) {
+    console.log("You moused over something.");
+    map.data.revertStyle();
+    map.data.overrideStyle(event.feature, {
+        strokeColor: event.feature.getProperty('strokeColor')
+    });
+  });
+
+  map.data.addListener('mouseout', function(event) {
+    console.log("You moused out.");
+    map.data.revertStyle();
   });
 }
