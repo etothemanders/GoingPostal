@@ -8,6 +8,7 @@ body {
 
 #content h2 {
 	margin-bottom: 70px;
+	color: #FFF;
 }
 
 
@@ -16,9 +17,24 @@ body {
 	color: #FFF;
 	font-family: 'Lemon', cursive;
 	margin-bottom: 70px;
+	margin-top: 50px;
 }
 
 .btn, .btn-block, .btn-default {
 	padding: 20px;
 	margin-bottom: 100px;
+}
+
+#cover-button {
+	color: #FFF;
+	background-color: #339999;
+	border-color: #006666;
+}
+
+#cover-button:hover,
+#cover-button:focus,
+#cover-button:active,
+#cover-button.active {
+	color: #FFF;
+	background-color: #009999;
 }
