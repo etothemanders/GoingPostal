@@ -3,17 +3,59 @@
 {% block body %}
 
 <div class="container-fluid">
-	<div class="row">
-		<h1 class="masthead">Going Postal</h1>
-	</div>
-</div>
 
-<div class="container-fluid">
-	<div class="row">
-		<div class="mastheadaction">
-			<a class="mastheadaction" href="{{url_for('login')}}">Track my Shipments!</a>
+
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<p>
+				top buffer
+			</p>
 		</div>
 	</div>
+
+
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+
+			<div class="row clearfix">
+
+					<div class="col-md-2 column">
+					</div>
+
+					<div class="col-md-8 column" id="content">
+							<h1 class="text-center" id="masthead">
+								Going Postal
+							</h1>
+							<p>
+								Stuff about Going Postal
+							</p>
+							<img alt="placement image" src="http://placekitten.com/g/400/300" class="img-circle" />
+							<button type="button" class="btn btn-block btn-default">
+								Track my Shipments!
+							</button>
+							<div class="mastheadaction">
+								<a class="mastheadaction" href="{{url_for('login')}}">Track my Shipments!</a>
+							</div>
+					</div>
+
+					<div class="col-md-2 column">
+					</div>
+
+			</div>
+
+		</div>
+	</div>
+
+
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<p>
+				bottom buffer
+			</p>
+		</div>
+	</div>
+
+
 </div>
 
 {% endblock %}

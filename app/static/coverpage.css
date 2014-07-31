@@ -1,3 +1,15 @@
-.masthead, .mastheadaction {
-	text-align: center;
+.navbar, .navbar-inverse, .navbar-static-top {
+	margin-bottom: 50px;
 }
+
+#content {
+	background-color: #FFFFCC;
+}
+
+
+#masthead {
+	font-size: 50px;
+	color: #003333;
+	font-family: 'Lemon', cursive;;
+}
+*/
