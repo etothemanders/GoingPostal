@@ -22,6 +22,20 @@
 
 # Daily Stand-Up Notes
 
+## 2014-07-31
+
+### Accomplished yesterday:
+1.  Used layoutit.com to help create cover page positioning.
+2.  Have a half-way decent cover page.
+
+### Plan for today:
+1.  Do some map styling.
+    1.  Color the package routes different colors
+    2.  Highlight routes when mousing over the package's row in the table
+
+### Blockers
+1.  Scared to change my code at this point.
+
 ## 2014-07-30
 
 ### Accomplished yesterday:
