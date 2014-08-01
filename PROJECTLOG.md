@@ -22,6 +22,20 @@
 
 # Daily Stand-Up Notes
 
+## 2014-08-01
+
+### Accomplished yesterday:
+1.  Colored package paths on mouseover event
+2.  Finished styling cover page and my_shipments.html page
+
+### Plan for today:
+1.  Color corresponding table row when package path is moused-over
+2.  Color corresponding package path when table row is moused-over
+
+### Blockers
+1.  Still just scared to touch my code.
+
+
 ## 2014-07-31
 
 ### Accomplished yesterday:
