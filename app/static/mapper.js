@@ -15,6 +15,7 @@ function initialize() {
 
   getLatLongs();
   colorizePaths();
+  getShipmentID();
 
 }
 
@@ -83,9 +84,11 @@ function makeSaveLocRequest(loc_id, latitude, longitude) {
 function colorizePaths() {
   map.data.setStyle(function(feature) {
     var color = "gray";
+    var strokeWeight = 5;
 
     return ({
       strokeColor: color,
+      strokeWeight: strokeWeight
     });
   });
 
@@ -93,12 +96,25 @@ function colorizePaths() {
     console.log("You moused over something.");
     map.data.revertStyle();
     map.data.overrideStyle(event.feature, {
-        strokeColor: event.feature.getProperty('strokeColor')
+        strokeColor: event.feature.getProperty('strokeColor'),
     });
   });
 
   map.data.addListener('mouseout', function(event) {
     console.log("You moused out.");
     map.data.revertStyle();
+  });
+}
+
+function getShipmentID() {
+  $("tr").hover(function() {
+    var id = $(this).attr('id');
+    map.data.setStyle(function(feature) {
+      if (feature.getProperty('shipmentID') == id) {
+        return {strokeColor: "blue"};
+      } else {
+        return {};  
+      }
+    })
   });
 }

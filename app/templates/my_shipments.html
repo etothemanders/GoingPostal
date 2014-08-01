@@ -18,7 +18,7 @@
     </thead>
     <tbody>
       {% for shipment, last_activity in shipments %}
-      <tr>
+      <tr id="{{ shipment.id }}">
         <td>{{ last_activity.timestamp }}</td>
         <td>{{ shipment.tracking_no }}</td>
         <td>{{ last_activity.placename }}</td>

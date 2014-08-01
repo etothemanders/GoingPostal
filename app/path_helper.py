@@ -52,8 +52,7 @@ def create_feature(shipment):
 			},
 			"properties": {
 				"strokeColor": "#339999",
-				"strokeOpacity": 1.0,
-				"strokeWeight": 2
+				"shipmentID": shipment.id
 			}
 		}
 		for location in locations:
