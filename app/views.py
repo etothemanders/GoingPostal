@@ -30,17 +30,24 @@ def authorized(resp):
             request.args['error_reason'],
             request.args['error_description']
         )
-    # Check if that user already exists
+    # Save token to the session for following gmail request
     session['gmail_token'] = (resp['access_token'], )
-
+    # Check if that user already exists in the db
     gmail_user = gmail.get('userinfo')
-    postal_user = User(name=gmail_user.data['name'], 
-                       email_address=gmail_user.data['email'],
-                       access_token=resp['access_token'])
-    postal_user.save()
-    session['user_email'] = gmail_user.data['email']
-    session['user_id'] = postal_user.id
-
+    if db_session.query(User).filter_by(email_address=gmail_user.data['email']).one():
+        postal_user = db_session.query(User).filter_by(email_address=gmail_user.data['email']).one()
+        # Check to see if the token is still valid, if yes, update the token in the session? Or just update it in the db?
+        session['user_email'] = gmail_user.data['email']
+        session['user_id'] = postal_user.id
+    else:
+        # If a new user, save them to the db
+        postal_user = User(name=gmail_user.data['name'], 
+                           email_address=gmail_user.data['email'],
+                           access_token=resp['access_token'])
+        postal_user.save()
+        session['user_email'] = gmail_user.data['email']
+        session['user_id'] = postal_user.id
+    # Search the user's gmail for tracking numbers
     email_ids = postal_user.request_email_ids()
     email_contents = email_helper.get_emails(email_ids)
     tracking_numbers = email_helper.get_tracking_numbers(email_contents)
