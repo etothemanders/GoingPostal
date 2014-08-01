@@ -13,9 +13,19 @@ function initialize() {
   map = new google.maps.Map(document.getElementById("map-canvas"),
       					  mapOptions);
 
+  map.data.setStyle(function(feature) {
+    var color = "gray";
+    var strokeWeight = 5;
+
+    return ({
+      strokeColor: color,
+      strokeWeight: strokeWeight
+    });
+  });
+
   getLatLongs();
   colorizePaths();
-  getShipmentID();
+  colorizeTable();
 
 }
 
@@ -82,39 +92,59 @@ function makeSaveLocRequest(loc_id, latitude, longitude) {
 }
 
 function colorizePaths() {
-  map.data.setStyle(function(feature) {
-    var color = "gray";
-    var strokeWeight = 5;
-
-    return ({
-      strokeColor: color,
-      strokeWeight: strokeWeight
-    });
-  });
-
   map.data.addListener('mouseover', function(event) {
-    console.log("You moused over something.");
+    //Highlight the corresponding table row
+    var id = event.feature.getProperty('shipmentID');
+    var row = $("tr#table_row_" + id);
+    row.addClass("activeRow");
+    //Highlight the package path
     map.data.revertStyle();
     map.data.overrideStyle(event.feature, {
         strokeColor: event.feature.getProperty('strokeColor'),
     });
   });
-
   map.data.addListener('mouseout', function(event) {
-    console.log("You moused out.");
+    // Un-highlight the corresponding table row
+    var id = event.feature.getProperty('shipmentID');
+    var row = $("tr#table_row_" + id);
+    row.removeClass("activeRow");
+    // Un-highlight the package path
     map.data.revertStyle();
   });
 }
 
-function getShipmentID() {
-  $("tr").hover(function() {
-    var id = $(this).attr('id');
+function colorizeTable() {
+  $("tbody tr").mouseenter(function() {
+    // Highlight the table row
+    $(this).addClass("activeRow");
+    // Highlight corresponding package path
+    var table_row_id = $(this).attr('id');
+    var id = table_row_id.substring(10);
     map.data.setStyle(function(feature) {
       if (feature.getProperty('shipmentID') == id) {
-        return {strokeColor: "blue"};
-      } else {
-        return {};  
+        map.data.revertStyle();
+        map.data.overrideStyle(feature, {
+          strokeColor: feature.getProperty('strokeColor'),
+          strokeWeight: feature.getProperty('strokeWeight')
+          });
+        }
+      // Otherwise, keep the other package path the same style
+      else {
+        return ({ strokeColor: "gray",
+                  strokeWeight: 5 });
       }
-    })
+    });
+  }).mouseout(function() {
+    // Un-highlight the table row
+    $(this).removeClass("activeRow");
+    // Un-highlight the corresponding package path
+    map.data.revertStyle();
+    map.data.setStyle(function(feature) {
+      var color = "gray";
+      var strokeWeight = 5;
+      return ({ strokeColor: color,
+               strokeWeight: strokeWeight
+      });
+    });
   });
 }

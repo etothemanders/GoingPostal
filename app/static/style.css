@@ -2,7 +2,7 @@ table thead {
 	background-color: #F0F0F0;
 }
 
-tbody tr:hover {
+.activeRow {
 	background-color: #339999;
 	color: #FFF;
 };
