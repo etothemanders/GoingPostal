@@ -5,11 +5,8 @@ Two example Features
 {
                 "type": "Feature",
                 "geometry": {
-                    "type": "LineString",
-                    "coordinates": [
-                        [-104.9847, 39.9434],
-                        [-122.4194, 37.8921]
-                    ]
+                    "type": "Point",
+                    "coordinates": [-104.9847, 39.9434]
                 },
                 "properties": {
                     "strokeColor": "#FF0000",
@@ -36,14 +33,30 @@ Two example Features
 """
 
 def create_feature(shipment):
-	"""Receives a shipment object, builds a GeoJSON Feature."""
+	"""Receives a shipment object, builds a GeoJSON Feature.  See the official
+	spec for more detail:  http://geojson.org/geojson-spec.html"""
 	locations = db_session.query(Location).filter_by(shipment_id=shipment.id).all()
 	if not locations:
+		# Handle a shipment with no locations
 		pass
 	elif len(locations) == 1:
 		# Create Point type Feature
-		pass
+		location = locations[0]
+		latitude = float(location.latitude)
+		longitude = float(location.longitude)
+		feature_dict = {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [longitude, latitude]
+			},
+			"properties": {
+				"strokeColor": "#339999"
+			}
+		}
+		return feature_dict
 	else:
+		# Create LineString type Feature
 		feature_dict = {
 			"type": "Feature",
 			"geometry": {
