@@ -1,4 +1,5 @@
 import os
+from datetime import date, timedelta
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine, ForeignKey, Column, Integer, String, DateTime, Date
@@ -37,11 +38,24 @@ class User(Base):
         session.add(self)
         session.commit()
 
+    def save_new_token(self, access_token):
+        """Save new access token in the database."""
+        session.query(User).filter_by(id=self.id).update({"access_token": access_token})
+        session.commit()
+
+
     def request_email_ids(self):
         """Builds a GMAIL API query for shipment emails in the last 6 months.
         Returns a list of emails (dictionaries with keys 'id' and 'threadId'."""
 
-        query = "shipped shipping shipment tracking after:2014/1/14"
+        today = date.today()
+        diff = timedelta(180)
+        six_months_ago = today - diff
+        query_date = six_months_ago.strftime('%Y/%m/%d')
+        #old query yields 4 results, 2 trackable
+        #query = "shipped shipping shipment tracking after:" + query_date
+        #New query yields 9 results
+        query = "shipped shipping tracking number after:" + query_date
         url = "https://www.googleapis.com/gmail/v1/users/%s/messages" % self.email_address
         response = gmail.get(url, data = {"q": query})
         data = response.data
@@ -84,7 +98,6 @@ class Shipment(Base):
 
     def get_last_activity(self):
         last_activty = session.query(Location).filter_by(shipment_id=self.id).order_by(Location.timestamp.desc()).first()
-        print last_activty
         return last_activty
 
 class Location(Base):
