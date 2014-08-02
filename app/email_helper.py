@@ -4,8 +4,29 @@ from datetime import datetime
 from packagetrack import Package
 
 from flask import session
+import sqlalchemy
 from app import gmail
-from model import session as db_session, Shipment, Location
+from model import session as db_session, Email, Shipment, Location
+
+
+def save_new_email_ids(email_ids):
+    """Receives a list of email_ids (dictionaries), and saves new email objects
+    to the database."""
+    new_ids = []
+    for email_id in email_ids:
+        # If email id already exists, don't add it to the list
+        try:
+            email = db_session.query(Email).filter_by(gmail_id=email_id['id']).one()
+        # If it doesn't already exist, add it to the database and the new
+        # ids list
+        except sqlalchemy.orm.exc.NoResultFound, e:
+            email = Email(gmail_id=email_id['id'],
+                          thread_id=email_id['threadId'],
+                          belongs_to=session['user_id'])
+            db_session.add(email)
+            new_ids.append(email_id)
+    db_session.commit()
+    return new_ids
 
 
 def get_emails(email_ids):
@@ -13,8 +34,11 @@ def get_emails(email_ids):
     Returns a list of email contents (string)."""
     email_contents = []
     for email in email_ids:
-        content = request_email_body(email)
-        email_contents.append(content)
+        try:
+            content = request_email_body(email)
+            email_contents.append(content)
+        except KeyError, e:
+            pass
     return email_contents
 
 

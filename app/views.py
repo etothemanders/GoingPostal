@@ -3,6 +3,7 @@ from flask import Flask, session, request, render_template, flash, redirect, url
 from model import session as db_session, User, Shipment, Location
 from app import app, gmail
 import email_helper, location_helper, path_helper
+import sqlalchemy
 
 
 @app.teardown_request
@@ -30,16 +31,17 @@ def authorized(resp):
             request.args['error_reason'],
             request.args['error_description']
         )
-    # Save token to the session for following gmail request
+    # Save token to the session for the immediately following gmail request
     session['gmail_token'] = (resp['access_token'], )
     # Check if that user already exists in the db
     gmail_user = gmail.get('userinfo')
-    if db_session.query(User).filter_by(email_address=gmail_user.data['email']).one():
+    try:
         postal_user = db_session.query(User).filter_by(email_address=gmail_user.data['email']).one()
-        # Check to see if the token is still valid, if yes, update the token in the session? Or just update it in the db?
+        # Choosing to just update the token the db
+        postal_user.save_new_token(resp['access_token'])
         session['user_email'] = gmail_user.data['email']
         session['user_id'] = postal_user.id
-    else:
+    except sqlalchemy.orm.exc.NoResultFound, e:
         # If a new user, save them to the db
         postal_user = User(name=gmail_user.data['name'], 
                            email_address=gmail_user.data['email'],
@@ -49,8 +51,11 @@ def authorized(resp):
         session['user_id'] = postal_user.id
     # Search the user's gmail for tracking numbers
     email_ids = postal_user.request_email_ids()
-    email_contents = email_helper.get_emails(email_ids)
+    new_email_ids = email_helper.save_new_email_ids(email_ids)
+    # Only ask for contents from new email ids
+    email_contents = email_helper.get_emails(new_email_ids)
     tracking_numbers = email_helper.get_tracking_numbers(email_contents)
+    # Only create shipments if a tracking number was found
     shipments = email_helper.create_shipments(tracking_numbers)
     activities = email_helper.track_shipments(shipments)
     email_helper.parse_locations(activities)
