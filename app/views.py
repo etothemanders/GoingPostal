@@ -49,7 +49,7 @@ def authorized(resp):
         postal_user.save()
         session['user_email'] = gmail_user.data['email']
         session['user_id'] = postal_user.id
-    # Search the user's gmail for tracking numbers
+    # Search the user's gmail for shipment confirmation emails
     email_ids = postal_user.request_email_ids()
     new_email_ids = email_helper.save_new_email_ids(email_ids)
     # Only ask for contents from new email ids
@@ -57,6 +57,8 @@ def authorized(resp):
     tracking_numbers = email_helper.get_tracking_numbers(email_contents)
     # Only create shipments if a tracking number was found
     shipments = email_helper.create_shipments(tracking_numbers)
+    #  TODO Track new and undelivered shipments
+    #  currently only tracking new shipments
     activities = email_helper.track_shipments(shipments)
     email_helper.parse_locations(activities)
     return redirect(url_for('show_map'))
