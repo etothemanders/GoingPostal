@@ -25,40 +25,40 @@ Installation Instructions
 
 	pip install -r requirements.txt
 
-## Get your API keys
+## Add your API Keys
 To run GoingPostal, you will need to create your own Google Developer account
 and your own My UPS account in order to request the necessary access keys.
 Follow the service provider's instructions.
 
 1.  Google OAuth 2.0 credentials
-Create a Google Developer account and take note of where to find your Client ID
-and Client Secret for web applications in the developer console.
-https://developers.google.com/accounts/docs/OAuth2
+   Create a Google Developer account and take note of where to find your Client ID
+   and Client Secret for web applications in the developer console.
+   [https://developers.google.com/accounts/docs/OAuth2]
 
 2.  Configure the web app in your Google Developer Console
-Edit the web applications section to set the redirect URI to:
+   Edit the web applications section to set the redirect URI to:
 	http://localhost:5050/login/authorized
-to run GoingPostal out of the box locally.
+   to run GoingPostal out of the box locally.
 
 3.  Google Geocoding and Google Maps Javascript API v3 browser key
-In your Google Developer Console, create a new Public API access key for browser
-applications.  Update the Referrers value to
+   In your Google Developer Console, create a new Public API access key for browser
+   applications.  Update the Referrers value to
 	http://localhost:5050/*
 
 4.  Turn on Google's web services
-In your Google Developer Console, turn the following services "on":
-Gmail API
-Geocoding
-Google Maps JavaScript API v3
+   In your Google Developer Console, turn the following services "on":
+  * Gmail API
+  * Geocoding
+  * Google Maps JavaScript API v3
 
 5.  UPS Developer Kit
-Register with My UPS and request an Access key.
-https://www.ups.com/upsdeveloperkit?loc=en_US
+   Register with My UPS and request an Access key.
+[https://www.ups.com/upsdeveloperkit?loc=en_US]
 
 6.  Create a Flask Secret Key
-In order to use sessions in Flask, you will need a secret key.  The Flask
-Sessions documentation shows you how to generate one.
-http://flask.pocoo.org/docs/quickstart/#sessions
+   In order to use sessions in Flask, you will need a secret key.  The Flask
+   Sessions documentation shows you how to generate one.
+   [http://flask.pocoo.org/docs/quickstart/#sessions]
 
 I have stored my keys in my ~/.bash_profile, and then point to them in
 config.py.  You should not need to change config.py, but your .bash_profile 
@@ -74,7 +74,7 @@ should look something like this:
 	## For GoingPostal Google Maps
 	export GOOGLE_MAPS="your browser API key in quotes"
 
-##  Create the empty database
+##  Create the Database
 To create the database and tables, cd into your local GoingPostal directory
 and type the following commands into your command line interface:
 
