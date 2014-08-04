@@ -1,26 +1,45 @@
 ===
 # TODO
 
-0.  Check for logged in user
-1.  Check for new shipments
+0.  Check for logged in user - DONE
+1.  Check for new shipments - DONE
   1.  Connect to Gmail API (Gmail OAuth) - DONE
   2.  Fetch shipment emails (last 6 months) - DONE
   3.  Parse tracking number and determine courier - DONE
-  4.  If a new tracking number from a courier that I can track, add to db
+  4.  If a new tracking number from a courier that I can track, add to db - DONE
 2.  Check for new package locations
   1.  Look up the current status of all tracking numbers
   2.  If current status is not delivered, get tracking info from the courier
   3.  If location is new, add location data to db
-3.  Display shipment paths and current location on a map
-  1.  Add a map to html page
-  2.  Determine lat/long for each location from Google Maps Geocoding API, save to db
-  3.  Create polyline for each shipment from Google Maps Javascript API, add to map
+3.  Display shipment paths on a map
+  1.  Add a map to html page - DONE
+  2.  Determine lat/long for each location from Google Maps Geocoding API, 
+      save to db - DONE
+  3.  Create polyline for each shipment from Google Maps Javascript API, 
+      add to map - DONE
 4.  Write job scheduler to check for package updates (once per day?)
 5.  Send a text message after being delivered
 
 ===
 
 # Daily Stand-Up Notes
+
+## 2014-08-04
+
+### Accomplished Friday:
+1.  Finished coloring corresponding paths and table rows
+2.  Tweaked email search query, now grabbing more shipment emails
+3.  Added check to not duplicate db entries for the same user, email, shipment
+    or activities.
+3.  Now handling circumstances when no data (shipment emails, tracking numbers,
+    package activity) is found.  Table shows no shipments found.
+
+### Plan for today:
+1.  Write README.md
+2.  Write some Python tests
+
+### Blockers
+None right now.
 
 ## 2014-08-01
 
