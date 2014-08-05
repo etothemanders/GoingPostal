@@ -25,7 +25,7 @@ class User(Base):
     id = Column(Integer, primary_key = True)
     name = Column(String(64), nullable=False)
     email_address = Column(String(64), nullable=False)
-    access_token = Column(String(64), nullable=False)        
+    access_token = Column(String(64), nullable=False)
     sms_phone = Column(String(64), nullable=True)
     call_phone = Column(String(64), nullable=True)
     location = Column(String(64), nullable=True)
@@ -70,10 +70,6 @@ class Email(Base):
     belongs_to = Column(Integer, ForeignKey('users.id'), nullable=False)
 
     user = relationship("User", backref="emails")
-
-    def save(self):
-        session.add(self)
-        session.commit()
 
 
 class Shipment(Base):
