@@ -11,10 +11,11 @@ GoingPostal was created during the Summer 2014 Hackbright Academy Software
 Engineering Fellowship.
 
 ## App Architecture
-Presentation Layer:  HTML, CSS, JS, JQuery, AJAX, JSON and Bootstrap
+Presentation Layer:  HTML, CSS, JS, jQuery, AJAX, JSON, and Bootstrap
 Application Layer:  Python, Flask
 Data Layer:  SQLite, SQLAlchemy
 APIs:  Google OAuth, Gmail, UPS Tracking, Google Geocoding, Google Maps Javascript v3
+
 
 Installation Instructions
 ===========
