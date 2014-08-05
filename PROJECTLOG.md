@@ -1,26 +1,4 @@
 ===
-# TODO
-
-0.  Check for logged in user - DONE
-1.  Check for new shipments - DONE
-  1.  Connect to Gmail API (Gmail OAuth) - DONE
-  2.  Fetch shipment emails (last 6 months) - DONE
-  3.  Parse tracking number and determine courier - DONE
-  4.  If a new tracking number from a courier that I can track, add to db - DONE
-2.  Check for new package locations
-  1.  Look up the current status of all tracking numbers
-  2.  If current status is not delivered, get tracking info from the courier
-  3.  If location is new, add location data to db
-3.  Display shipment paths on a map
-  1.  Add a map to html page - DONE
-  2.  Determine lat/long for each location from Google Maps Geocoding API, 
-      save to db - DONE
-  3.  Create polyline for each shipment from Google Maps Javascript API, 
-      add to map - DONE
-4.  Write job scheduler to check for package updates (once per day?)
-5.  Send a text message after being delivered
-
-===
 
 # Daily Stand-Up Notes
 
@@ -331,28 +309,24 @@ OAuth
 1.  Project approval
 2.  How to fake shipment data??
 
-### Questions:
-1.  git init locally vs. creating a repo on GitHub
-Can git init on GitHub, just git init in one place or the other. 
-If you init on GitHub, don't forget to check the init checkbox.
-2.  How do I fake shipment data?
-Check the courier APIs for test data.
-Create a page of tracking numbers.
-3.  How to get email data??  Nick suggested 3 options:
-  1.  Browser extension - add a tracking number from a web page to my app
-  2.  Use IMAP to actually read my email - invasive.  Would need to store
-      encrypted, hashed email password
-  3.  OAuth might be possible - check Gmail API docs. Also check Flask mega-
-      tutorial for a Google accounts OAuth example of account creation.
+===
+# TODO
 
-### Ways to Expand on the Project
-1.  Additional email providers
-2.  Store the info retrieved from carriers for offline support
-3.  Predict the next location
-	1.  Based on time of year (winter)
-	2.  Postal traffic (holidays)
-4.  Map viewing options
-	1.  Show timing by time of year
-	2.  By shipping priority (regular, express, priority, etc.)
-	3.  Bad weather, holidays...
-
+0.  Check for logged in user - DONE
+1.  Check for new shipments - DONE
+  1.  Connect to Gmail API (Gmail OAuth) - DONE
+  2.  Fetch shipment emails (last 6 months) - DONE
+  3.  Parse tracking number and determine courier - DONE
+  4.  If a new tracking number from a courier that I can track, add to db - DONE
+2.  Check for new package locations
+  1.  Look up the current status of all tracking numbers
+  2.  If current status is not delivered, get tracking info from the courier
+  3.  If location is new, add location data to db
+3.  Display shipment paths on a map
+  1.  Add a map to html page - DONE
+  2.  Determine lat/long for each location from Google Maps Geocoding API, 
+      save to db - DONE
+  3.  Create polyline for each shipment from Google Maps Javascript API, 
+      add to map - DONE
+4.  Write job scheduler to check for package updates (once per day?)
+5.  Send a text message after being delivered
