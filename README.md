@@ -24,7 +24,8 @@ Installation Instructions
 ===========
 ## Download and Install
 1.  Clone or fork this repository. 
-2.  Open a command line interface (terminal, shell, etc.) and type: 
+2.  Open a command line interface (terminal, shell, etc.) and type:
+
     pip install -r requirements.txt
 
 ## Add your API Keys
