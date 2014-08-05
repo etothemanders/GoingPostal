@@ -1,5 +1,4 @@
 # GoingPostal  
-===========
 ## Summary  
 A web app that lets you visually track your online purchases as they travel to 
 their destinations.  It searches for shipment confirmation emails in Gmail, 
@@ -20,7 +19,8 @@ APIs:  Google OAuth, Gmail, UPS Tracking, Google Geocoding, Google Maps Javascri
 ## Installation Instructions  
 ### Download and Install  
 1.  Clone or fork this repository. 
-2.  Open a command line interface (terminal, shell, etc.) and type:  
+2.  Open a command line interface (terminal, shell, etc.) and type:
+
     pip install -r requirements.txt
 
 ### Add your API Keys
