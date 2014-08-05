@@ -1,28 +1,20 @@
 GoingPostal
 ===========
-
+## Summary
 A web app that lets you visually track your online purchases as they travel to 
 their destinations.  It searches for shipment confirmation emails in Gmail, 
 finds tracking numbers (currently only UPS tracking numbers), asks UPS for 
 the package's movements, converts city names to latitude and longitude 
 coordinates, and plots the package's progress on a Google map. 
 
-# App Architecture
-Presentation Layer:  HTML, CSS, JS, JQuery, AJAX, JSON and Bootstrap
-
-Application Layer:  Python, Flask
-
-Data Layer:  SQLite, SQLAlchemy
-
-APIs:  Google OAuth, Gmail, UPS Tracking, Google Geocoding, Google Maps Javascript v3
-
-# Web Services
-Uses Gmail OAuth for Gmail access, the UPS SOAP API for package tracking 
-information, and Google's Geocoding and Maps APIs for location translation 
-and path mapping.
-
 GoingPostal was created during the Summer 2014 Hackbright Academy Software 
 Engineering Fellowship.
+
+## App Architecture
+Presentation Layer:  HTML, CSS, JS, JQuery, AJAX, JSON and Bootstrap
+Application Layer:  Python, Flask
+Data Layer:  SQLite, SQLAlchemy
+APIs:  Google OAuth, Gmail, UPS Tracking, Google Geocoding, Google Maps Javascript v3
 
 Installation Instructions
 ===========
