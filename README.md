@@ -97,7 +97,8 @@ http://localhost:5050
 
 ##Contribute to GoingPostal  
 I've got no shortage of potential features for GoingPostal.  Feel free to pitch
-in on any of the ones below, or fork this repo and work on your own!
+in on any of the ones below, or fork this repo and work on your own feature 
+ideas!
 
 1.  More carriers!  FedEx and the US Postal Service would be handy.
 2.  Add a marker to show a package's last location on the map.
