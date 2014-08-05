@@ -25,8 +25,7 @@ Installation Instructions
 ## Download and Install
 1.  Clone or fork this repository. 
 2.  Open a command line interface (terminal, shell, etc.) and type:
-
-    pip install -r requirements.txt
+```pip install -r requirements.txt
 
 ## Add your API Keys
 To run GoingPostal, you will need to create your own Google Developer account 
