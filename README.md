@@ -9,8 +9,11 @@ coordinates, and plots the package's progress on a Google map.
 
 # App Architecture
 Presentation Layer:  HTML, CSS, JS, JQuery, AJAX, JSON and Bootstrap
+
 Application Layer:  Python, Flask
+
 Data Layer:  SQLite, SQLAlchemy
+
 APIs:  Google OAuth, Gmail, UPS Tracking, Google Geocoding, Google Maps Javascript v3
 
 # Web Services
@@ -27,7 +30,7 @@ Installation Instructions
 1.  Clone or fork this repository. 
 2.  Open a command line interface (terminal, shell, etc.) and type: 
 
-	pip install -r requirements.txt
+    pip install -r requirements.txt
 
 ## Add your API Keys
 To run GoingPostal, you will need to create your own Google Developer account 
@@ -41,13 +44,13 @@ Follow the service provider's instructions.
 
 2.  Configure the web app in your Google Developer Console
    Edit the web applications section to set the redirect URI to:
-	http://localhost:5050/login/authorized
+    http://localhost:5050/login/authorized
    to run GoingPostal out of the box locally.
 
 3.  Google Geocoding and Google Maps Javascript API v3 browser key
    In your Google Developer Console, create a new Public API access key for browser
    applications.  Update the Referrers value to
-	http://localhost:5050/*
+    http://localhost:5050/*
 
 4.  Turn on Google's web services
    In your Google Developer Console, turn the following services "on":
@@ -68,33 +71,33 @@ I have stored my keys in my ~/.bash_profile, and then point to them in
 config.py.  You should not need to change config.py, but your .bash_profile 
 should look something like this:
 
-	## For Google OAuth
-	export GOOGLE_ID=<put your CLIENT ID here, no quotes>
-	export GOOGLE_SECRET=<your CLIENT SECRET here, no quotes>
+    ## For Google OAuth
+    export GOOGLE_ID=<put your CLIENT ID here, no quotes>
+    export GOOGLE_SECRET=<your CLIENT SECRET here, no quotes>
 
-	## For Flask Sessions
-	export SECRET_KEY="your key in quotes"
+    ## For Flask Sessions
+    export SECRET_KEY="your key in quotes"
 
-	## For GoingPostal Google Maps
-	export GOOGLE_MAPS="your browser API key in quotes"
+    ## For GoingPostal Google Maps
+    export GOOGLE_MAPS="your browser API key in quotes"
 
 ##  Create the Database
 To create the database and tables, cd into your local GoingPostal directory
 and type the following commands into your command line interface:
 
-	python -i run.py
+    python -i run.py
 
 hit ctrl + c to issue a keyboard interrupt and start the interactive python
 interpreter
 
-	from app import model
-	model.create_db()
-	quit()
+    from app import model
+    model.create_db()
+    quit()
 
 ## Run the App
 In the GoingPostal directory, type this command to start the server:
 
-	python run.py
+    python run.py
 
 Open a web browser and navigate to
 http://localhost:5050
