@@ -18,17 +18,21 @@ APIs:  Google OAuth, Gmail, UPS Tracking, Google Geocoding, Google Maps Javascri
 
 ## Installation Instructions  
 ### Download and Install  
-1.  Clone or fork this repository. 
-2.  Open a command line interface (terminal, shell, etc.) and type:
+1.  Clone or fork this repository.  
+2.  Open a command line interface (terminal, shell, etc.) and type:  
 
     pip install -r requirements.txt
+
+
+    pip install -r requirements.txt
+
 
 ### Add your API Keys
 To run GoingPostal, you will need to create your own Google Developer account 
 and your own My UPS account in order to request the necessary access keys. 
 Follow the service provider's instructions. 
 
-1.  Google OAuth 2.0 credentials
+1.  Google OAuth 2.0 credentials  
    Create a Google Developer account and take note of where to find your Client ID
    and Client Secret for web applications in the developer console.
    [https://developers.google.com/accounts/docs/OAuth2]
