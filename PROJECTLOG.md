@@ -2,6 +2,20 @@
 
 # Daily Stand-Up Notes
 
+## 2014-08-05
+
+### Accomplished yesterday:
+1.  Wrote README.md installation instructions
+2.  Wrote a test case
+
+### Plan for today:
+1.  Make a video recording of my app
+2.  Write a blog post about how my app works
+3.  Practice giving my presentation
+
+### Blockers
+None right now.
+
 ## 2014-08-04
 
 ### Accomplished Friday:
