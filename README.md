@@ -1,6 +1,6 @@
-GoingPostal
+# GoingPostal  
 ===========
-## Summary
+## Summary  
 A web app that lets you visually track your online purchases as they travel to 
 their destinations.  It searches for shipment confirmation emails in Gmail, 
 finds tracking numbers (currently only UPS tracking numbers), asks UPS for 
@@ -10,21 +10,20 @@ coordinates, and plots the package's progress on a Google map.
 GoingPostal was created during the Summer 2014 Hackbright Academy Software 
 Engineering Fellowship.
 
-## App Architecture
+## App Architecture  
 Presentation Layer:  HTML, CSS, JS, jQuery, AJAX, JSON, and Bootstrap  
 Application Layer:  Python, Flask  
 Data Layer:  SQLite, SQLAlchemy  
 APIs:  Google OAuth, Gmail, UPS Tracking, Google Geocoding, Google Maps Javascript v3  
 
 
-Installation Instructions
-===========
-## Download and Install
+## Installation Instructions  
+### Download and Install  
 1.  Clone or fork this repository. 
 2.  Open a command line interface (terminal, shell, etc.) and type:  
     pip install -r requirements.txt
 
-## Add your API Keys
+### Add your API Keys
 To run GoingPostal, you will need to create your own Google Developer account 
 and your own My UPS account in order to request the necessary access keys. 
 Follow the service provider's instructions. 
@@ -73,7 +72,7 @@ should look something like this:
     ## For GoingPostal Google Maps
     export GOOGLE_MAPS="your browser API key in quotes"
 
-##  Create the Database
+###  Create the Database
 To create the database and tables, cd into your local GoingPostal directory
 and type the following commands into your command line interface:
 
@@ -86,16 +85,15 @@ interpreter
     model.create_db()
     quit()
 
-## Run the App
+### Run the App
 In the GoingPostal directory, type this command to start the server:
 
     python run.py
 
-Open a web browser and navigate to
+Open a web browser and navigate to  
 http://localhost:5050
 
-Contribute to GoingPostal
-===========
+##Contribute to GoingPostal  
 I've got no shortage of potential features for GoingPostal.  Feel free to pitch
 in on any of the ones below, or fork this repo and work on your own!
 
