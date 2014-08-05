@@ -82,8 +82,8 @@ and type the following commands into your command line interface:
 
     python -i run.py
 
-hit ctrl + c to issue a keyboard interrupt and start the interactive python
-interpreter
+Hit ctrl + c to issue a keyboard interrupt and start the interactive python
+interpreter.  Type:
 
     from app import model
     model.create_db()
@@ -94,7 +94,7 @@ In the GoingPostal directory, type this command to start the server:
 
     python run.py
 
-Open a web browser and navigate to  
+Open a web browser and navigate to:  
 http://localhost:5050
 
 ##Contribute to GoingPostal  
