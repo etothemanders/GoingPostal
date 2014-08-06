@@ -51,7 +51,7 @@ def create_feature(shipment):
 				"coordinates": [longitude, latitude]
 			},
 			"properties": {
-				"strokeColor": "#339999"
+				"strokeColor": "#FF6633"
 			}
 		}
 		return feature_dict
@@ -64,7 +64,7 @@ def create_feature(shipment):
 				"coordinates": []
 			},
 			"properties": {
-				"strokeColor": "#339999",
+				"strokeColor": "#FF6633",
 				"shipmentID": shipment.id,
 				"strokeWeight": 5
 			}

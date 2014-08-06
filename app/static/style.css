@@ -3,6 +3,7 @@ table thead {
 }
 
 .activeRow {
-	background-color: #339999;
+    /* old background-color: #339999;*/
+	background-color: #FF6633;
 	color: #FFF;
 };
