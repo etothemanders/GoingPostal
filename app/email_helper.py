@@ -96,6 +96,18 @@ def create_shipments(tracking_numbers):
     return shipments
 
 
+def fetch_undelivered(shipments):
+    """Receives a list of shipment objects, checks for last activity.  Returns 
+    a list of undelivered shipment objects."""
+    undelivered = []
+    if shipments:
+        for shipment in shipments:
+            last_status = shipment.get_last_activity().status_description
+            if last_status != "DELIVERED":
+                undelivered.append(shipment)
+    return undelivered
+
+
 def track_shipment(shipment):
     """Receives a shipment object. Returns a dictionary of activities.
 
@@ -141,16 +153,26 @@ def parse_location(activity_dict):
                     city = address_info['City']
                     state = address_info['StateProvinceCode']
                     shipment_id = shipment_id
-                    date = datetime.strptime(activity['Date'], "%Y%m%d")
-                    time = activity['Time']
+                    #date = datetime.strptime(activity['Date'], "%Y%m%d")
+                    timestamp = datetime.strptime(activity['Date'] + activity['Time'], "%Y%m%d%H%M%S")
                     status = activity['Status']['StatusType']['Description']
-                    location = Location(shipment_id=shipment_id, 
-                                        placename=city, 
-                                        latitude="None",
-                                        longitude="None",
-                                        timestamp=date,
-                                        status_description=status,
-                                        tracking_url='Need to get this.')
-                    db_session.add(location)
+
+                    # Query db to see if this activity has already been saved
+                    try:
+                        previous_location = db_session.query(Location)\
+                        .filter_by(shipment_id=shipment_id)\
+                        .filter_by(placename=city)\
+                        .filter_by(timestamp=timestamp.strftime("%Y-%m-%d %H:%M:%S.000000"))\
+                        .filter_by(status_description=status).one()
+                    # If location not in db, create Location object, save to db
+                    except sqlalchemy.orm.exc.NoResultFound, e:
+                        location = Location(shipment_id=shipment_id, 
+                                            placename=city, 
+                                            latitude="None",
+                                            longitude="None",
+                                            timestamp=timestamp,
+                                            status_description=status,
+                                            tracking_url='Need to get this.')
+                        db_session.add(location)
     db_session.commit()
 

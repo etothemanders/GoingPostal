@@ -36,7 +36,8 @@ def authorized(resp):
     # Check if that user already exists in the db
     gmail_user = gmail.get('userinfo')
     try:
-        postal_user = db_session.query(User).filter_by(email_address=gmail_user.data['email']).one()
+        postal_user = db_session.query(User)\
+        .filter_by(email_address=gmail_user.data['email']).one()
         # Choosing to just update the token the db
         postal_user.save_new_token(resp['access_token'])
         session['user_email'] = gmail_user.data['email']
@@ -57,8 +58,15 @@ def authorized(resp):
     tracking_numbers = email_helper.get_tracking_numbers(email_contents)
     # Only create shipments if a tracking number was found
     shipments = email_helper.create_shipments(tracking_numbers)
-    #  TODO Track new and undelivered shipments
-    #  currently only tracking new shipments
+    # Try to update undelivered shipments
+    # Using try/except because a new user with no shipments throws
+    # AttributeError 'NoneType' object has no attribute 'status_description'
+    try:
+        undelivered = email_helper.fetch_undelivered(postal_user.shipments)
+        shipments.extend(undelivered)
+    except AttributeError:
+        pass
+    #  Track new and undelivered shipments
     activities = email_helper.track_shipments(shipments)
     email_helper.parse_locations(activities)
     return redirect(url_for('show_map'))
@@ -66,8 +74,11 @@ def authorized(resp):
 
 @app.route("/my_shipments")
 def show_map():
+    # Shipments_info is list of tuples (Shipment object, last activity Location 
+    # object)
     shipments_info = []
-    shipments = db_session.query(Shipment).filter_by(user_id=session['user_id']).all()
+    shipments = db_session.query(Shipment)\
+    .filter_by(user_id=session['user_id']).all()
     for shipment in shipments:
         shipment_info = []
         shipment_info.append(shipment)
