@@ -94,7 +94,7 @@ class Location(Base):
     placename = Column(String(128), nullable=False)
     latitude = Column(String(64), nullable=True)
     longitude = Column(String(64), nullable=True)
-    timestamp = Column(Date, nullable=False)
+    timestamp = Column(DateTime, nullable=False)
     status_description = Column(String(128), nullable=False)
     tracking_url = Column(String(256))
 
