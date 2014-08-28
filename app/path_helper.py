@@ -35,7 +35,8 @@ Two example Features
 def create_feature(shipment):
 	"""Receives a shipment object, builds a GeoJSON Feature.  See the official
 	spec for more detail:  http://geojson.org/geojson-spec.html"""
-	locations = db_session.query(Location).filter_by(shipment_id=shipment.id).all()
+	locations = db_session.query(Location).filter_by(shipment_id=shipment.id)\
+    .order_by(Location.timestamp).all()
 	if not locations:
 		# Handle a shipment with no locations
 		pass
