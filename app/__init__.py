@@ -2,9 +2,6 @@ from flask import Flask
 from flask_oauthlib.client import OAuth
 
 app = Flask(__name__)
-# app.config['GOOGLE_ID'] = config.GOOGLE_ID
-# app.config['GOOGLE_SECRET'] = config.GOOGLE_SECRET
-# app.config['SECRET_KEY'] = config.SECRET_KEY
 app.config.from_object('config')
 
 
