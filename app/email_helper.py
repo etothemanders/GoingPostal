@@ -1,4 +1,5 @@
-import base64, re
+import base64
+import re
 from datetime import datetime
 
 from packagetrack import Package
@@ -55,7 +56,7 @@ def request_email_body(email):
 
 
 def get_tracking_numbers(email_contents):
-    """Receives a list of email contents (strings). 
+    """Receives a list of email contents (strings).
     Returns a list of tracking numbers."""
     tracking_numbers = []
     for content in email_contents:
@@ -71,8 +72,8 @@ def parse_tracking_number(decoded_string):
     patterns = {
         'ups_pattern': r'1Z[A-Z0-9]{16}',
         # Don't look for unsupported tracking numbers for now
-        #'fedex_pattern': r'[0-9]{22}',
-        #'usps_pattern': r'[0-9]{26}'
+        # 'fedex_pattern': r'[0-9]{22}',
+        # 'usps_pattern': r'[0-9]{26}'
     }
     for pattern in patterns:
         result = re.findall(patterns[pattern], decoded_string)
@@ -83,7 +84,7 @@ def parse_tracking_number(decoded_string):
 
 def create_shipments(tracking_numbers):
     """Receives a list of tracking numbers. Creates a shipments object for each
-    tracking number, saves it to the database, and returns a list of shipment 
+    tracking number, saves it to the database, and returns a list of shipment
     objects."""
     shipments = []
     for tracking_number in tracking_numbers:
@@ -97,7 +98,7 @@ def create_shipments(tracking_numbers):
 
 
 def fetch_undelivered(shipments):
-    """Receives a list of shipment objects, checks for last activity.  Returns 
+    """Receives a list of shipment objects, checks for last activity.  Returns
     a list of undelivered shipment objects."""
     undelivered = []
     if shipments:
@@ -121,10 +122,10 @@ def track_shipment(shipment):
 
 
 def track_shipments(shipments):
-    """Receives a list of shipment objects.  Returns a list of shipment 
+    """Receives a list of shipment objects.  Returns a list of shipment
     activity dictionaries.
 
-    activities = [ { shipment id: [ { activity }, { activity } ] }, 
+    activities = [ { shipment id: [ { activity }, { activity } ] },
                    { shipment id: [ { activity }, { activity } ] }
                  ]"""
     activities = []
@@ -142,7 +143,7 @@ def parse_locations(activities):
 
 
 def parse_location(activity_dict):
-    """Receives a shipment activity dictionary. If the activity contains 
+    """Receives a shipment activity dictionary. If the activity contains
     a city and a state, saves the location to the database."""
     for shipment_id in activity_dict:
         activity_list = activity_dict[shipment_id]
@@ -151,23 +152,24 @@ def parse_location(activity_dict):
                 address_info = activity['ActivityLocation']['Address']
                 if address_info.has_key('City') and address_info.has_key('StateProvinceCode'):
                     city = address_info['City']
-                    state = address_info['StateProvinceCode']
+                    # state = address_info['StateProvinceCode']
                     shipment_id = shipment_id
-                    #date = datetime.strptime(activity['Date'], "%Y%m%d")
+                    # date = datetime.strptime(activity['Date'], "%Y%m%d")
                     timestamp = datetime.strptime(activity['Date'] + activity['Time'], "%Y%m%d%H%M%S")
                     status = activity['Status']['StatusType']['Description']
 
                     # Query db to see if this activity has already been saved
                     try:
-                        previous_location = db_session.query(Location)\
-                        .filter_by(shipment_id=shipment_id)\
-                        .filter_by(placename=city)\
-                        .filter_by(timestamp=timestamp.strftime("%Y-%m-%d %H:%M:%S.000000"))\
-                        .filter_by(status_description=status).one()
+                        previous_location = (db_session.query(Location)
+                                                       .filter_by(shipment_id=shipment_id)
+                                                       .filter_by(placename=city)
+                                                       .filter_by(timestamp=timestamp.strftime("%Y-%m-%d %H:%M:%S.000000"))
+                                                       .filter_by(status_description=status)
+                                                       .one())
                     # If location not in db, create Location object, save to db
                     except sqlalchemy.orm.exc.NoResultFound, e:
-                        location = Location(shipment_id=shipment_id, 
-                                            placename=city, 
+                        location = Location(shipment_id=shipment_id,
+                                            placename=city,
                                             latitude="None",
                                             longitude="None",
                                             timestamp=timestamp,
@@ -175,4 +177,3 @@ def parse_location(activity_dict):
                                             tracking_url='Need to get this.')
                         db_session.add(location)
     db_session.commit()
-

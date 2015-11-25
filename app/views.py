@@ -1,27 +1,35 @@
 import json
-from flask import Flask, session, request, render_template, flash, redirect, url_for, g, jsonify
+import sqlalchemy
+
+from flask import session, request, render_template, redirect, url_for, g, jsonify
 from model import session as db_session, User, Shipment, Location
 from app import app, gmail
-import email_helper, location_helper, path_helper
-import sqlalchemy
+
+import email_helper
+import location_helper
+import path_helper
 
 
 @app.teardown_request
-def shutdown_session(exception = None):
+def shutdown_session(exception=None):
     db_session.remove()
+
 
 # Don't think this does anything
 @app.before_request
 def load_user_id():
     g.user_id = session.get('user_id')
 
+
 @app.route("/")
 def index():
     return render_template("index.html")
 
+
 @app.route("/login")
 def login():
     return gmail.authorize(callback=url_for('authorized', _external=True))
+
 
 @app.route('/login/authorized')
 @gmail.authorized_handler
@@ -36,15 +44,16 @@ def authorized(resp):
     # Check if that user already exists in the db
     gmail_user = gmail.get('userinfo')
     try:
-        postal_user = db_session.query(User)\
-        .filter_by(email_address=gmail_user.data['email']).one()
+        postal_user = (db_session.query(User)
+                                 .filter_by(email_address=gmail_user.data['email'])
+                                 .one())
         # Choosing to just update the token the db
         postal_user.save_new_token(resp['access_token'])
         session['user_email'] = gmail_user.data['email']
         session['user_id'] = postal_user.id
     except sqlalchemy.orm.exc.NoResultFound, e:
         # If a new user, save them to the db
-        postal_user = User(name=gmail_user.data['name'], 
+        postal_user = User(name=gmail_user.data['name'],
                            email_address=gmail_user.data['email'],
                            access_token=resp['access_token'])
         postal_user.save()
@@ -74,11 +83,12 @@ def authorized(resp):
 
 @app.route("/my_shipments")
 def show_map():
-    # Shipments_info is list of tuples (Shipment object, last activity Location 
+    # Shipments_info is list of tuples (Shipment object, last activity Location
     # object)
     shipments_info = []
-    shipments = db_session.query(Shipment)\
-    .filter_by(user_id=session['user_id']).all()
+    shipments = (db_session.query(Shipment)
+                           .filter_by(user_id=session['user_id'])
+                           .all())
     for shipment in shipments:
         shipment_info = []
         shipment_info.append(shipment)
@@ -86,13 +96,14 @@ def show_map():
         shipment_info.append(last_activity)
         shipments_info.append(shipment_info)
     return render_template('my_shipments.html',
-                            shipments=shipments_info,
-                            GOOGLE_MAPS=app.config.get('GOOGLE_MAPS'))
+                           shipments=shipments_info,
+                           GOOGLE_MAPS=app.config.get('GOOGLE_MAPS'))
+
 
 @app.route("/get_latlongs")
 def get_latlongs():
     all_rows = db_session.query(Location).filter_by(latitude='None').all()
-    #get just the unique locations
+    # get just the unique locations
     unique_rows = location_helper.get_unique_rows(all_rows)
     jsonified_rows = []
     for row in unique_rows:
@@ -141,9 +152,8 @@ def load_geojson():
 def get_gmail_oauth_token():
     return session.get('gmail_token')
 
+
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for("index"))
-
-

@@ -32,52 +32,54 @@ Two example Features
 
 """
 
-def create_feature(shipment):
-	"""Receives a shipment object, builds a GeoJSON Feature.  See the official
-	spec for more detail:  http://geojson.org/geojson-spec.html"""
-	locations = db_session.query(Location).filter_by(shipment_id=shipment.id)\
-    .order_by(Location.timestamp).all()
-	if not locations:
-		# Handle a shipment with no locations
-		pass
-	elif len(locations) == 1:
-		# Create Point type Feature
-		location = locations[0]
-		latitude = float(location.latitude)
-		longitude = float(location.longitude)
-		feature_dict = {
-			"type": "Feature",
-			"geometry": {
-				"type": "Point",
-				"coordinates": [longitude, latitude]
-			},
-			"properties": {
-				"strokeColor": "#FF6633"
-			}
-		}
-		return feature_dict
-	else:
-		# Create LineString type Feature
-		feature_dict = {
-			"type": "Feature",
-			"geometry": {
-				"type": "LineString",
-				"coordinates": []
-			},
-			"properties": {
-				"strokeColor": "#FF6633",
-				"shipmentID": shipment.id,
-				"strokeWeight": 5
-			}
-		}
-		for location in locations:
-			latitude = float(location.latitude)
-			longitude = float(location.longitude)
-			# GeoJSON spec requires a position contain (at least) two numbers
-			# in the following order (x, y, z) (easting, northing, altitude)
-			# so longitude, then latitude
-			# http://geojson.org/geojson-spec.html#positions
-			coordinate = [longitude, latitude]
-			feature_dict["geometry"]["coordinates"].append(coordinate)
-		return feature_dict
 
+def create_feature(shipment):
+    """Receives a shipment object, builds a GeoJSON Feature.  See the official
+    spec for more detail:  http://geojson.org/geojson-spec.html"""
+    locations = (db_session.query(Location)
+                           .filter_by(shipment_id=shipment.id)
+                           .order_by(Location.timestamp)
+                           .all())
+    if not locations:
+        # Handle a shipment with no locations
+        pass
+    elif len(locations) == 1:
+        # Create Point type Feature
+        location = locations[0]
+        latitude = float(location.latitude)
+        longitude = float(location.longitude)
+        feature_dict = {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [longitude, latitude]
+            },
+            "properties": {
+                "strokeColor": "#FF6633"
+            }
+        }
+        return feature_dict
+    else:
+        # Create LineString type Feature
+        feature_dict = {
+            "type": "Feature",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": []
+            },
+            "properties": {
+                "strokeColor": "#FF6633",
+                "shipmentID": shipment.id,
+                "strokeWeight": 5
+            }
+        }
+        for location in locations:
+            latitude = float(location.latitude)
+            longitude = float(location.longitude)
+            # GeoJSON spec requires a position contain (at least) two numbers
+            # in the following order (x, y, z) (easting, northing, altitude)
+            # so longitude, then latitude
+            # http://geojson.org/geojson-spec.html#positions
+            coordinate = [longitude, latitude]
+            feature_dict["geometry"]["coordinates"].append(coordinate)
+        return feature_dict
