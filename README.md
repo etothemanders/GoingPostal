@@ -19,10 +19,13 @@ APIs:  Google OAuth, Gmail, UPS Tracking, Google Geocoding, Google Maps Javascri
 
 
 ## Installation Instructions  
-### Download and Install  
-Clone or fork this repository.  Then open a command line interface (terminal, 
-shell, etc.) and type:
+### Clone and Install  
+Clone or fork the repository. Create and activate a virtual environment within the project directory. Then install the all of the app's dependencies:
 
+    git clone https://github.com/etothemanders/GoingPostal.git
+    cd GoingPostal
+    virtualenv virtualenv
+    . virtualenv/bin/activate
     pip install -r requirements.txt
 
 ### Add your API Keys
