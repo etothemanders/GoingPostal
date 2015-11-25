@@ -4,7 +4,10 @@ GoingPostal is a web app that lets you visually track your online purchases as
 they travel to their destinations.  It searches for shipment confirmation emails
 in Gmail, finds tracking numbers (currently only UPS tracking numbers), asks UPS
 for the package's movements, converts city names to latitude and longitude 
-coordinates, and plots the package's progress on a Google map.
+coordinates, and plots the package's progress on a Google map. 
+
+GoingPostal was created during the Summer 2014 Hackbright Academy Software 
+Engineering Fellowship.
 
 ![alt text](/app/static/going_postal.png "My Shipments page")
 
