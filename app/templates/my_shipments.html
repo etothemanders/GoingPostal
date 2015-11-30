@@ -1,45 +1,42 @@
 {% extends 'layout.html' %}
 
 {% block body %}
+  <div class="container-fluid">
+    <h1>Your Shipments</h1>
+  </div>
 
-<div class="container-fluid">
-  <h1>Your Shipments</h1>
-</div>
+  <div class="container-fluid">
+    {% if shipments %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Last Activity</th>
+            <th>Tracking Number</th>
+            <th>Last Location</th>
+            <th>Package Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for shipment, last_activity in shipments %}
+            <tr id="table_row_{{ shipment.id }}">
+              <td>{{ last_activity.timestamp }}</td>
+              <td>{{ shipment.tracking_no }}</td>
+              <td>{{ last_activity.placename }}</td>
+              <td>{{ last_activity.status_description }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <h4>You have no shipments to track.</h4>
+    {% endif %}
+  </div>
 
-<div class="container-fluid">
-  {% if shipments %}
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Last Activity</th>
-        <th>Tracking Number</th>
-        <th>Last Location</th>
-        <th>Package Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for shipment, last_activity in shipments %}
-      <tr id="table_row_{{ shipment.id }}">
-        <td>{{ last_activity.timestamp }}</td>
-        <td>{{ shipment.tracking_no }}</td>
-        <td>{{ last_activity.placename }}</td>
-        <td>{{ last_activity.status_description }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  {% else %}
-  <h4>You have no shipments to track.</h4>
-  {% endif %}
-</div>
+  <div class="container-fluid">
+    <div id="map-canvas"></div>
+  </div>
 
-<div class="container-fluid">
-  <div id="map-canvas"></div>
-</div>
-<!--this is a browser key, need to edit allowed referrers-->
-<script type="text/javascript"
-        src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_MAPS}}">
-</script>
-<script type="text/javascript" src="/static/mapper.js"></script>
-
+  <!--this is a browser key, need to edit allowed referrers-->
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_MAPS}}"></script>
+  <script type="text/javascript" src="/static/mapper.js"></script>
 {% endblock %}

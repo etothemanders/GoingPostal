@@ -1,47 +1,49 @@
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-        <title>Going Postal</title>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link href='http://fonts.googleapis.com/css?family=Lemon' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="/static/coverpage.css">
-        <link rel="stylesheet" href="/static/style.css">
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    </head>
-    <body>
-        <div class="navbar navbar-inverse navbar-static-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="/">Going Postal</a>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        {% if 'user_id' in session %}
-                        <li><a href="{{url_for('show_map')}}">My Shipments</a></li>
-                        <li><a href="{{url_for('logout')}}">{{session['user_email']}} Logout</a></li>
-                        {% endif %}
-                        {% if 'user_id' not in session %}
-                        <li><a href="{{url_for('login')}}">Log In</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
+
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>Going Postal</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Lemon' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/static/coverpage.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <div class="navbar navbar-inverse navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">Going Postal</a>
         </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            {% if 'user_id' in session %}
+              <li><a href="{{url_for('show_map')}}">My Shipments</a></li>
+              <li><a href="{{url_for('logout')}}">{{session['user_email']}} Logout</a></li>
+            {% endif %}
+            {% if 'user_id' not in session %}
+              <li><a href="{{url_for('login')}}">Log In</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </div>
 
-
-        <div id="message-flash">
-        {% with messages = get_flashed_messages(with_categories=True) %}
+    <div id="message-flash">
+      {% with messages = get_flashed_messages(with_categories=True) %}
         {% if messages %}
-            <ul>
-                {% for category, message in messages %}
-                <li class="{{category}}">{{message}}</li>
-                {% endfor %}
-            </ul>
+          <ul>
+            {% for category, message in messages %}
+              <li class="{{category}}">{{message}}</li>
+            {% endfor %}
+          </ul>
         {% endif %}
-        {% endwith %}
-        </div>
+      {% endwith %}
+    </div>
 
-        {% block body %}
-        {% endblock %}
-    </body>
+    {% block body %}
+    {% endblock %}
+  </body>
+  
 </html>

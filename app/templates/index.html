@@ -1,95 +1,70 @@
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-        <title>Going Postal</title>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link href='http://fonts.googleapis.com/css?family=Lemon' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="/static/coverpage.css">
-        <link rel="stylesheet" href="/static/style.css">
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    </head>
-    <body id="cover-body">
-        <div class="navbar navbar-inverse navbar-static-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="/">Going Postal</a>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        {% if 'user_id' in session %}
-                        <li><a href="{{url_for('show_map')}}">My Shipments</a></li>
-                        <li><a href="{{url_for('logout')}}">{{session['user_email']}} Logout</a></li>
-                        {% endif %}
-                        {% if 'user_id' not in session %}
-                        <li><a href="{{url_for('login')}}">Log In</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
+
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>Going Postal</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Lemon' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/static/coverpage.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  </head>
+
+  <body id="cover-body">
+    <div class="navbar navbar-inverse navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">Going Postal</a>
         </div>
-
-        <div class="container-fluid">
-
-
-            <div class="row clearfix">
-                <div class="col-md-12 column">
-                </div>
-            </div>
-
-
-            <div class="row clearfix">
-                <div class="col-md-12 column">
-
-                    <div class="row clearfix">
-
-                            <div class="col-md-2 column">
-                            </div>
-
-                            <div class="col-md-8 column" id="content">
-                                    <h1 class="text-center" id="masthead">
-                                        Going Postal
-                                    </h1>
-
-                                    <div class="row clearfix">
-                                        <div class="col-md-2 column">
-                                        </div>
-
-                                        <div class="col-md-8 column">
-                                            <h2 class="text-center">
-                                                Package tracking for online shoppers
-                                            </h2>
-                                            <a href="{{url_for('track')}}" class="btn btn-lg btn-block btn-default" id="cover-button">Track my Shipment!</a>
-                                        </div>
-
-                                        <div class="col-md-2 column">
-                                        </div>
-
-                                    </div>
-                            </div>
-
-                            <div class="col-md-2 column">
-                            </div>
-
-                    </div>
-
-                </div>
-            </div>
-
-
-            <div class="row clearfix">
-                <div class="col-md-12 column">
-                    <p class="text-right footer">
-                        Photo: <a href="https://www.flickr.com/photos/28919802@N04/13243871354/in/photolist-mbjixy-dpHq1N-5nbk1k-dpHfnF-nJTiKH-svEHj-jd1C5d-6YcQeC-nJRdnw-7CJftu-8B2jFA-6fXFp6-6eH64r-tdTV-59kqKq-4n5nkV-48RkQN-7ReRnx-6PcfAb-2SdAhh-4Mgyrd-LmmS2-71a1fs-jZPnwG-aVc6oe-qE5YF-2gtwPD-dvJTsE-aPXu6R-DW9e7-4gnDA1-7C1wKm-NpSib-aQX8sP-5iyZNo-a6Czsh-neLzVj-2SdDwh-dy3aUw-3PZ4c-aNofwM-41swNv-kBBfu-2SaoSs-9sNxG3-2S74mm-2S7jVb-mC8QTL-dxmuK3-5LkGYe">Fabian Reus</a>
-                    </p>
-                    <p class="text-center footer">
-                        Copyright Emily Manders
-                    </p>
-                </div>
-            </div>
-
-
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            {% if 'user_id' in session %}
+              <li><a href="{{url_for('show_map')}}">My Shipments</a></li>
+              <li><a href="{{url_for('logout')}}">{{session['user_email']}} Logout</a></li>
+            {% endif %}
+            {% if 'user_id' not in session %}
+              <li><a href="{{url_for('login')}}">Log In</a></li>
+            {% endif %}
+          </ul>
         </div>
+      </div>
+    </div>
 
-    </body>
+    <div class="container-fluid">
+      <div class="row clearfix">
+        <div class="col-md-12 column"></div>
+      </div>
+
+      <div class="row clearfix">
+        <div class="col-md-12 column">
+
+          <div class="row clearfix">
+            <div class="col-md-2 column"></div>
+            <div class="col-md-8 column" id="content">
+              <h1 class="text-center" id="masthead">Going Postal</h1>
+              
+              <div class="row clearfix">
+                <div class="col-md-2 column"></div>
+                <div class="col-md-8 column">
+                  <h2 class="text-center">Package tracking for online shoppers</h2>
+                  <a href="{{url_for('track')}}" class="btn btn-lg btn-block btn-default" id="cover-button">Track my Shipment!</a>
+                </div>
+                <div class="col-md-2 column"></div>
+              </div>
+            </div>
+            <div class="col-md-2 column"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row clearfix">
+        <div class="col-md-12 column">
+          <p class="text-right footer">Photo: <a href="http://bit.ly/1TgRdnc">Fabian Reus</a></p>
+          <p class="text-center footer">Copyright Emily Manders</p>
+        </div>
+      </div>
+
+    </div>
+  </body>
+
 </html>
-
