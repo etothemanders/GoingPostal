@@ -1,9 +1,12 @@
 table thead {
-	background-color: #F0F0F0;
+  background-color: #F0F0F0;
 }
 
 .activeRow {
-    /* old background-color: #339999;*/
-	background-color: #FF6633;
-	color: #FFF;
-};
+  background-color: #FF6633;
+  color: #FFF;
+}
+
+#map-canvas {
+  height: 100%;
+}

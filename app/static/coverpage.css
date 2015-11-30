@@ -1,40 +1,51 @@
+body {
+  margin: 0;
+}
+
+#cover-body {
+  background-image: url("/static/mailbox.jpg");
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+}
+
 .navbar, .navbar-inverse, .navbar-static-top {
-	margin-bottom: 50px;
+  margin-bottom: 50px;
 }
 
 #content h2 {
-	margin-bottom: 70px;
-	color: #FFF;
+  margin-bottom: 70px;
+  color: #FFF;
 }
 
 
 #masthead {
-	font-size: 100px;
-	color: #FFF;
-	font-family: 'Lemon', cursive;
-	margin-bottom: 70px;
-	margin-top: 50px;
+  font-size: 100px;
+  color: #FFF;
+  font-family: 'Lemon', cursive;
+  margin-bottom: 70px;
+  margin-top: 50px;
 }
 
 .btn, .btn-block, .btn-default {
-	padding: 20px;
-	margin-bottom: 100px;
+  padding: 20px;
+  margin-bottom: 100px;
 }
 
 #cover-button {
-	color: #FFF;
-	background-color: #339999;
-	border-color: #006666;
+  color: #FFF;
+  background-color: #339999;
+  border-color: #006666;
 }
 
 #cover-button:hover,
 #cover-button:focus,
 #cover-button:active,
 #cover-button.active {
-	color: #FFF;
-	background-color: #009999;
+  color: #FFF;
+  background-color: #009999;
 }
 
 .footer {
-	color: #FFF;
+  color: #FFF;
 }
