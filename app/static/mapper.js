@@ -3,15 +3,15 @@ var map;
 
 
 function initialize() {
-	geocoder = new google.maps.Geocoder();
+  geocoder = new google.maps.Geocoder();
   //TODO: Center on the browser's location
-	var latlng = new google.maps.LatLng(36.3955, -97.8783);
+  var latlng = new google.maps.LatLng(36.3955, -97.8783);
   var mapOptions = {
     center: latlng,
     zoom: 5
   };
   map = new google.maps.Map(document.getElementById("map-canvas"),
-      					  mapOptions);
+                  mapOptions);
 
   map.data.setStyle(function(feature) {
     var color = "gray";
@@ -46,44 +46,44 @@ function getLatLongs() {
     map.data.loadGeoJson('/load_GeoJson');
   }
   // If there were new locations to geocode, geocode them
-	for (var i = 0; i < rows.length; i++) {
+  for (var i = 0; i < rows.length; i++) {
     var loc_id = rows[i]['id'];
     var location = rows[i]['placename'];
     getLatLong(loc_id, location);
-	  }
+    }
   });
 }
 
 function getLatLong(loc_id, location) {
   geocoder.geocode({ 'address': location }, function(results, status) {
-  	if (status == google.maps.GeocoderStatus.OK) {
-		var result = results[0].geometry.location;
+    if (status == google.maps.GeocoderStatus.OK) {
+    var result = results[0].geometry.location;
     var latitude = result.k;
     var longitude = result.B;
     console.log("latitude is " + latitude + "longitude is " + longitude);
     console.log(typeof(latitude));
-		makeSaveLocRequest(loc_id, latitude, longitude);
-	} else {
-		alert("Geocode was not successful for the following reason: " + status);
-	}
+    makeSaveLocRequest(loc_id, latitude, longitude);
+  } else {
+    alert("Geocode was not successful for the following reason: " + status);
+  }
 });
 }
 
 function makeSaveLocRequest(loc_id, latitude, longitude) {
-	$.ajax({
-		url : "/save_location",
-		type: "POST",
-		data: {
-			id: loc_id,
+  $.ajax({
+    url : "/save_location",
+    type: "POST",
+    data: {
+      id: loc_id,
       latitude: latitude.toString(),
       longitude: longitude.toString()
-		}
+    }
   // If the save request failed.
-	}).fail(function(resp){
-		console.log("makeSaveLocRequest failed.");
+  }).fail(function(resp){
+    console.log("makeSaveLocRequest failed.");
   // If the save request was successful.
-	}).done(function(resp){
-		console.log(" makeSaveLocRequest succeeded.");
+  }).done(function(resp){
+    console.log(" makeSaveLocRequest succeeded.");
   //After the save location route, always do this
   }).always(function(resp) {
       console.log('hello');
