@@ -48,14 +48,14 @@ class User(Base):
         diff = timedelta(180)
         six_months_ago = today - diff
         query_date = six_months_ago.strftime('%Y/%m/%d')
-        # old query yields 4 results, 2 trackable
-        # query = "shipped shipping shipment tracking after:" + query_date
-        # New query yields 9 results
-        query = "shipped shipping tracking number after:" + query_date
+        query = "shipped tracking number after:" + query_date
         url = "https://www.googleapis.com/gmail/v1/users/%s/messages" % self.email_address
         response = gmail.get(url, data={"q": query})
         data = response.data
-        messages = data["messages"]
+        try:
+            messages = data["messages"]
+        except KeyError:
+            messages = []
         # messages is a list of dictionaries [{ 'id': '12345', 'threadId': '12345'}, ]
         return messages
 
