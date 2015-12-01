@@ -42,12 +42,16 @@
             <div class="col-md-2 column"></div>
             <div class="col-md-8 column" id="content">
               <h1 class="text-center" id="masthead">Going Postal</h1>
-              
+
               <div class="row clearfix">
                 <div class="col-md-2 column"></div>
                 <div class="col-md-8 column">
-                  <h2 class="text-center">Package tracking for online shoppers</h2>
-                  <a href="{{url_for('track')}}" class="btn btn-lg btn-block btn-default" id="cover-button">Track my Shipment!</a>
+                  <h2 class="text-center" id="tagline">Package tracking for online shoppers</h2>
+                  <p class="bg-danger text-danger hidden" id="error-message"></p>
+                  <form>
+                    <input class="form-control input-lg" id="cover-input" type="text" placeholder="UPS tracking number">
+                    <button type="submit" class="btn btn-lg btn-block btn-default" id="cover-button">Track my Shipment!</button>
+                  </form>
                 </div>
                 <div class="col-md-2 column"></div>
               </div>
@@ -65,6 +69,7 @@
       </div>
 
     </div>
+    <script type="text/javascript" src="/static/validator.js"></script>
   </body>
 
 </html>

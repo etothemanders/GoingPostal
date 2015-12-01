@@ -27,6 +27,15 @@ body {
   margin-top: 50px;
 }
 
+#error-message {
+  border-radius: 5px;
+  padding: 15px;
+}
+
+#cover-input {
+  margin-bottom: 30px;
+}
+
 .btn, .btn-block, .btn-default {
   padding: 20px;
   margin-bottom: 100px;
