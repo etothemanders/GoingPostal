@@ -15,7 +15,7 @@ var Validator = (function() {
   function validateFormInput() {
     var $formInput = $('#cover-input').val().trim();
     var emptyError = 'Please enter a tracking number.';
-    var invalidTrackingNumber = 'Please enter a valid UPS tracking number. Ex: 1Z2W99W3PP20791577';
+    var invalidTrackingNumber = 'Please enter a valid UPS tracking number. Ex: 1ZY8Y608YW02920325';
     var errorMessage = false;
     
     $('#error-message').empty();
