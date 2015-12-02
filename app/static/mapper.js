@@ -33,33 +33,62 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 
 function getLatLongs() {
-  $.ajax({
-    url: "/get_latlongs",
-    type: "GET"
-  }).fail(function(resp){
-    console.log("getLatLongs failed.");
-  }).done(function(resp){
-  var rows = resp['resp'];
-  // If there weren't any new locations to add, plot the paths
-  if (rows.length === 0) {
-    console.log("No rows in response.");
-    map.data.loadGeoJson('/load_GeoJson');
-  }
-  // If there were new locations to geocode, geocode them
-  for (var i = 0; i < rows.length; i++) {
-    var loc_id = rows[i]['id'];
-    var location = rows[i]['placename'];
-    getLatLong(loc_id, location);
+  if (GP.locations) {
+    if (GP.locations.length === 1) {
+      // TODO create a point feature
+    } else {
+      GP.packagePathCoordinates = [];
+
+      for (var i=0; i < GP.locations.length; i++) {
+        geocoder.geocode({ 'address': GP.locations[i] }, function(results, status) {
+          if (status === google.maps.GeocoderStatus.OK) {
+            var best_match = results[0].geometry.location;
+            var latitude = best_match.lat();
+            var longitude = best_match.lng();
+            GP.packagePathCoordinates.push({'lat': latitude, 'lng': longitude});
+            
+            if (GP.locations.length === GP.packagePathCoordinates.length) {
+              GP.packagePath = new google.maps.Polyline({
+                path: GP.packagePathCoordinates,
+                geodesic: true,
+                strokeColor: "#FF6633",
+                strokeWeight: 5
+              });
+              GP.packagePath.setMap(map);
+            }
+          }
+        });
+      }
     }
-  });
+  } else {
+    $.ajax({
+      url: "/get_latlongs",
+      type: "GET"
+    }).fail(function(resp){
+      console.log("getLatLongs failed.");
+    }).done(function(resp){
+    var rows = resp['resp'];
+    // If there weren't any new locations to add, plot the paths
+    if (rows.length === 0) {
+      console.log("No rows in response.");
+      map.data.loadGeoJson('/load_GeoJson');
+    }
+    // If there were new locations to geocode, geocode them
+    for (var i = 0; i < rows.length; i++) {
+      var loc_id = rows[i]['id'];
+      var location = rows[i]['placename'];
+      getLatLong(loc_id, location);
+      }
+    });
+  }
 }
 
 function getLatLong(loc_id, location) {
   geocoder.geocode({ 'address': location }, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
     var result = results[0].geometry.location;
-    var latitude = result.k;
-    var longitude = result.B;
+    var latitude = result.lat();
+    var longitude = result.lng();
     console.log("latitude is " + latitude + "longitude is " + longitude);
     console.log(typeof(latitude));
     makeSaveLocRequest(loc_id, latitude, longitude);

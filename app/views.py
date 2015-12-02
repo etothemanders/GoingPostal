@@ -1,4 +1,5 @@
 import json
+from packagetrack import Package
 import sqlalchemy
 
 from flask import session, request, render_template, redirect, url_for, g, jsonify
@@ -24,6 +25,22 @@ def load_user_id():
 @app.route("/")
 def index():
     return render_template("index.html")
+
+
+@app.route("/track")
+def track():
+    tracking_number = request.args.get('tn', '')
+    if not tracking_number:
+        return redirect(url_for('index'))
+    p = Package(tracking_number)
+    status_list = p.track()
+    locations = [email_helper.parse_location_no_save(loc) for loc in status_list]
+    cities = ['{city}, {state}'.format(city=loc.get('city'), state=loc.get('state')) for loc in locations if loc.get('city') is not None and loc.get('state') is not None]
+    return render_template("track.html",
+                           shipment=p,
+                           locations=locations,
+                           cities=json.dumps(cities),
+                           GOOGLE_MAPS=app.config.get('GOOGLE_MAPS'))
 
 
 @app.route("/login")

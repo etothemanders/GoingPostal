@@ -32,7 +32,7 @@ var Validator = (function() {
     } else {
       $('#tagline').css('margin-bottom', '70px');
       $('#error-message').addClass('hidden');
-      alert('no errors!');
+      location.assign('/track?tn=' + $formInput);
     }
   }
 

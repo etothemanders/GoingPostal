@@ -177,3 +177,28 @@ def parse_location(activity_dict):
                                             tracking_url='Need to get this.')
                         db_session.add(location)
     db_session.commit()
+
+
+def parse_location_no_save(status_dict):
+    try:
+        timestamp = datetime.strptime(status_dict.get('Date') + status_dict.get('Time'), "%Y%m%d%H%M%S")
+    except KeyError:
+        timestamp = None
+    try:
+        status_description = status_dict.get('Status').get('StatusType').get('Description')
+    except KeyError:
+        status_description = None
+    try:
+        city = status_dict.get('ActivityLocation').get('Address').get('City')
+    except KeyError:
+        city = None
+    try:
+        state = status_dict.get('ActivityLocation').get('Address').get('StateProvinceCode')
+    except KeyError:
+        state = None
+    return {
+        'timestamp': timestamp,
+        'city': city,
+        'state': state,
+        'status_description': status_description
+    }
